@@ -1436,14 +1436,6 @@
         <argument>2048</argument>
       </call>
       <call method="addListener">
-        <argument>console.command</argument>
-        <argument type="collection">
-          <argument type="service" id="debug.debug_handlers_listener"/>
-          <argument>configure</argument>
-        </argument>
-        <argument>2048</argument>
-      </call>
-      <call method="addListener">
         <argument>kernel.exception</argument>
         <argument type="collection">
           <argument type="service" id="debug.debug_handlers_listener"/>
@@ -4540,6 +4532,13 @@
         <argument key="serializer" type="service" id="serializer"/>
       </argument>
     </service>
+    <service id=".service_locator.JBoVXlr" class="Symfony\Component\DependencyInjection\ServiceLocator" public="false">
+      <tag name="container.service_locator"/>
+      <argument type="collection">
+        <argument key="entityManager" type="service" id="doctrine.orm.default_entity_manager"/>
+        <argument key="passwordEncoder" type="service" id="security.user_password_encoder.generic"/>
+      </argument>
+    </service>
     <service id=".service_locator..F7OiVM" class="Symfony\Component\DependencyInjection\ServiceLocator" public="false">
       <tag name="container.service_locator"/>
       <argument type="collection">
@@ -4552,14 +4551,16 @@
         <argument key="application" type="service" id=".errored..service_locator.IUHfRcK.Symfony\Component\Console\Application"/>
       </argument>
     </service>
-    <service id=".service_locator.Tjt1YM6" class="Symfony\Component\DependencyInjection\ServiceLocator" public="false">
+    <service id=".service_locator.AP8iSjM" class="Symfony\Component\DependencyInjection\ServiceLocator" public="false">
       <tag name="container.service_locator"/>
       <argument type="collection">
         <argument key="App\Controller\PartenaireController::index" type="service" id=".service_locator.eIEYWuf"/>
         <argument key="App\Controller\SecurityController::build" type="service" id=".service_locator..F7OiVM"/>
+        <argument key="App\Controller\SecurityController::register" type="service" id=".service_locator.JBoVXlr"/>
         <argument key="App\Controller\SecurityController::registerCommands" type="service" id=".service_locator.IUHfRcK"/>
         <argument key="App\Controller\PartenaireController:index" type="service" id=".service_locator.eIEYWuf"/>
         <argument key="App\Controller\SecurityController:build" type="service" id=".service_locator..F7OiVM"/>
+        <argument key="App\Controller\SecurityController:register" type="service" id=".service_locator.JBoVXlr"/>
         <argument key="App\Controller\SecurityController:registerCommands" type="service" id=".service_locator.IUHfRcK"/>
       </argument>
     </service>
@@ -4823,12 +4824,12 @@
       <argument type="service" id="security.token_storage"/>
     </service>
     <service id="debug.argument_resolver.service.inner" class="Symfony\Component\HttpKernel\Controller\ArgumentResolver\ServiceValueResolver" public="false">
-      <argument type="service" id=".service_locator.Tjt1YM6"/>
+      <argument type="service" id=".service_locator.AP8iSjM"/>
     </service>
     <service id="debug.argument_resolver.default.inner" class="Symfony\Component\HttpKernel\Controller\ArgumentResolver\DefaultValueResolver" public="false"/>
     <service id="debug.argument_resolver.variadic.inner" class="Symfony\Component\HttpKernel\Controller\ArgumentResolver\VariadicValueResolver" public="false"/>
     <service id="debug.argument_resolver.not_tagged_controller.inner" class="Symfony\Component\HttpKernel\Controller\ArgumentResolver\NotTaggedControllerValueResolver" public="false">
-      <argument type="service" id=".service_locator.Tjt1YM6"/>
+      <argument type="service" id=".service_locator.AP8iSjM"/>
     </service>
     <service id="api_platform.swagger.normalizer.api_gateway.inner" class="ApiPlatform\Core\Swagger\Serializer\DocumentationNormalizer" public="false">
       <argument type="service" id="api_platform.metadata.resource.metadata_factory.cached"/>
@@ -5163,7 +5164,7 @@
     <service id="fos_rest.inflector" alias="fos_rest.inflector.doctrine"/>
     <service id="sensio_framework_extra.converter.doctrine.orm.expression_language" alias="sensio_framework_extra.converter.doctrine.orm.expression_language.default" public="false"/>
     <service id="sensio_framework_extra.security.expression_language" alias="sensio_framework_extra.security.expression_language.default" public="false"/>
-    <service id="argument_resolver.controller_locator" alias=".service_locator.Tjt1YM6"/>
+    <service id="argument_resolver.controller_locator" alias=".service_locator.AP8iSjM"/>
     <service id="twig.loader.filesystem" alias="twig.loader.native_filesystem" public="false"/>
     <service id="twig.loader" alias="twig.loader.native_filesystem"/>
     <service id="api_platform.name_converter" alias="serializer.name_converter.metadata_aware"/>

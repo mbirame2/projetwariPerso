@@ -8,10 +8,10 @@
         [
             'Symfony\\Component\\Routing\\Annotation\\Route' => [
                 'path' => [
-                    'api',
+                    '/api',
                 ],
                 'name' => [
-                    'api',
+                    '_api',
                 ],
             ],
         ],
