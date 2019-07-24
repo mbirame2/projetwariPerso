@@ -2,10 +2,13 @@
 
 namespace App\Controller;
 
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
+use FOS\RestBundle\FOSRestBundle;
 
-class SecurityController extends AbstractController
+/**
+ * @Route("api", name="api")
+ */
+class SecurityController extends FOSRestBundle
 {
     /**
      * @Route("/security", name="security")
