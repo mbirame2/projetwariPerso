@@ -7,6 +7,7 @@ return [
     'list_partenaire' => [[], ['_controller' => 'App\\Controller\\PartenaireController::index'], [], [['text', '/api/partenaire']], [], []],
     'ajout' => [[], ['_controller' => 'App\\Controller\\PartenaireController::new'], [], [['text', '/api/ajout_partenaire']], [], []],
     '_apiapp_register' => [[], ['_controller' => 'App\\Controller\\SecurityController::register'], [], [['text', '/api/register']], [], []],
+    '_apilogin' => [[], ['_controller' => 'App\\Controller\\SecurityController::login'], [], [['text', '/api/login']], [], []],
     'list_des_versements' => [[], ['_controller' => 'App\\Controller\\VersementController::index'], [], [['text', '/api/versement']], [], []],
     'ajout_versement' => [[], ['_controller' => 'App\\Controller\\VersementController::ajout'], [], [['text', '/api/ajout_versement']], [], []],
     'api_entrypoint' => [['index', '_format'], ['_controller' => 'api_platform.action.entrypoint', '_format' => '', '_api_respond' => 'true', 'index' => 'index'], ['index' => 'index'], [['variable', '.', '[^/]++', '_format', true], ['variable', '/', 'index', 'index', true], ['text', '/api']], [], []],
