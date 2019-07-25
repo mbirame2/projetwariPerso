@@ -27,17 +27,15 @@ class SecurityController extends FOSRestController
         $form->handleRequest($request);
         $data=json_decode($request->getContent(),true);
         $form->submit($data);
-        var_dump($user);
         if ($form->isSubmitted() && $form->isValid()) {
             // encode the plain password
-            var_dump($user);
             $user->setPassword(
                 $passwordEncoder->encodePassword(
                     $user,
                     $form->get('plainPassword')->getData()
                 )
             );
-            $user->setRoles($user->getRoles());
+            $user->setRoles(['ROLE_AdminWari']);
             $user->setStatus('Actif');
             $user->setProprietaire($user->getUsername());
             $entityManager = $this->getDoctrine()->getManager();
