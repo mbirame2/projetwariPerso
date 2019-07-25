@@ -21,17 +21,17 @@ class Partenaire
     /**
      * @ORM\Column(type="text")
      */
-    private $Raison_social;
+    private $raisonSocial;
 
     /**
      * @ORM\Column(type="integer")
      */
-    private $Ninea;
+    private $ninea;
 
     /**
      * @ORM\Column(type="string", length=255)
      */
-    private $Adresse;
+    private $adresse;
 
     public function getId(): ?int
     {
@@ -40,36 +40,36 @@ class Partenaire
 
     public function getRaisonSocial(): ?string
     {
-        return $this->Raison_social;
+        return $this->raisonSocial;
     }
 
     public function setRaisonSocial(string $Raison_social): self
     {
-        $this->Raison_social = $Raison_social;
+        $this->raisonSocial = $Raison_social;
 
         return $this;
     }
 
     public function getNinea(): ?int
     {
-        return $this->Ninea;
+        return $this->ninea;
     }
 
     public function setNinea(int $Ninea): self
     {
-        $this->Ninea = $Ninea;
+        $this->ninea = $Ninea;
 
         return $this;
     }
 
     public function getAdresse(): ?string
     {
-        return $this->Adresse;
+        return $this->adresse;
     }
 
     public function setAdresse(string $Adresse): self
     {
-        $this->Adresse = $Adresse;
+        $this->adresse = $Adresse;
 
         return $this;
     }

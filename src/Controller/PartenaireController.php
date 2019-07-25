@@ -11,6 +11,7 @@ use Symfony\Component\Serializer\SerializerInterface;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use App\Entity\Partenaire;
+use Symfony\Component\HttpFoundation\JsonResponse;
 
 class PartenaireController extends AbstractController
 {
@@ -43,6 +44,7 @@ class PartenaireController extends AbstractController
         }
         $entityManager->persist($part);
         $entityManager->flush();
+        
         $data = [
             'status' => 201,
             'message' => 'Le partenaire a bien été ajouté'

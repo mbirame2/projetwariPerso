@@ -3,43 +3,53 @@
 namespace App\Controller;
 
 use Symfony\Component\Routing\Annotation\Route;
-use FOS\RestBundle\FOSRestBundle;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 use Doctrine\ORM\EntityManagerInterface;
 use App\Entity\User;
 use Symfony\Component\HttpFoundation\JsonResponse;
+use App\Form\UserType;
+use FOS\RestBundle\Controller\FOSRestController;
+use Symfony\Component\HttpFoundation\Response;
 
 /**
 * @Route("/api",name="_api")
 */
-class SecurityController extends FOSRestBundle
+class SecurityController extends FOSRestController
 {
     /**
-    * @Route("/register", name="register", methods={"POST"})
+    * @Route("/register", name="app_register")
     */
-    public function register(Request $request, UserPasswordEncoderInterface $passwordEncoder, EntityManagerInterface $entityManager)
+    public function register(Request $request, UserPasswordEncoderInterface $passwordEncoder): Response
     {
-        $values = json_decode($request->getContent());
-        if(isset($values->username,$values->password)) {
-            $user = new User();
-            $user->setUsername($values->username);
-            $user->setPassword($passwordEncoder->encodePassword($user, $values->password));
+        $user = new User();
+        $form = $this->createForm(UserType::class, $user);
+        $form->handleRequest($request);
+        $data=json_decode($request->getContent(),true);
+        $form->submit($data);
+        var_dump($user);
+        if ($form->isSubmitted() && $form->isValid()) {
+            // encode the plain password
+            var_dump($user);
+            $user->setPassword(
+                $passwordEncoder->encodePassword(
+                    $user,
+                    $form->get('plainPassword')->getData()
+                )
+            );
             $user->setRoles($user->getRoles());
+            $user->setStatus('Actif');
+            $user->setProprietaire($user->getUsername());
+            $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($user);
             $entityManager->flush();
 
-            $data = [
-                'status' => 201,
-                'message' => 'L\'utilisateur a été créé avec succes'
-            ];
+            // do anything else you need here, like send an email
 
-            return new JsonResponse($data, 201);
+            return $this->handleView($this->view(['status'=>'ok'],Response::HTTP_CREATED));
+
         }
-        $data = [
-            'status' => 500,
-            'message' => 'Vous devez renseigner les clés username et password'
-        ];
-        return new JsonResponse($data, 500);
+
+        return $this->handleView($this->view($form->getErrors()));
     }
 }

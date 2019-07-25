@@ -11,12 +11,7 @@
                     '/register',
                 ],
                 'name' => [
-                    'register',
-                ],
-                'methods' => [
-                    [
-                        'POST',
-                    ],
+                    'app_register',
                 ],
             ],
         ],
