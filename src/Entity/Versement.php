@@ -29,6 +29,11 @@ class Versement
      */
     private $partenaire;
 
+    /**
+     * @ORM\Column(type="datetime")
+     */
+    private $dateVersement;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -54,6 +59,18 @@ class Versement
     public function setPartenaire(?Partenaire $partenaire): self
     {
         $this->partenaire = $partenaire;
+
+        return $this;
+    }
+
+    public function getDateVersement(): ?\DateTimeInterface
+    {
+        return $this->dateVersement;
+    }
+
+    public function setDateVersement(\DateTimeInterface $dateVersement): self
+    {
+        $this->dateVersement = $dateVersement;
 
         return $this;
     }

@@ -10,8 +10,11 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Serializer\SerializerInterface;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use App\Form\VersementType;
+use Symfony\Component\HttpFoundation\Response;
+use FOS\RestBundle\Controller\FOSRestController;
 
-class VersementController extends AbstractController
+class VersementController extends FOSRestController
 {
   /**
      * @Route("/api/versement", name="list_des_versements", methods={"GET"})
@@ -26,35 +29,31 @@ class VersementController extends AbstractController
         ]);
     }
 
-     /**
-     * @Route("/api/ajout_versement", name="versement", methods={"POST"})
+   /**
+     *@Route("/api/ajout_versement", name="ajout_versement", methods={"POST"})
      */
-    public function new(Request $request, SerializerInterface $serializer, EntityManagerInterface $entityManager, ValidatorInterface $validator)
+    public function ajout(Request $request)
     {
-        $versement = $serializer->deserialize($request->getContent(), Versement::class, 'json');
-        $errors = $validator->validate($versement);
-        if (count($errors)) {
-            $errors = $serializer->serialize($errors, 'json');
-            return new Response($errors, 500, [
-                'Content-Type' => 'application/json'
-            ]);
+        $versement = new Versement();
+        $form=$this->createForm(VersementType::class,$versement);
+        $data=json_decode($request->getContent(),true);
+        $form->submit($data);
+        
+        if($form->isSubmitted() && $form->isValid()){
+            $versement->setDateVersement(new \Datetime());
+            var_dump($data);
+            $em=$this->getDoctrine()->getManager();
+            $em->persist($versement);
+            $em->flush();
+            $partenaire=$versement->getPartenaire();
+            $solde=$partenaire->getSolde()+$versement->getMontant();
+            $partenaire->setSolde($solde);
+            
+            $em->persist($partenaire);
+            $em->flush();
+            return $this->handleView($this->view(['status'=>'ok'],Response::HTTP_CREATED));
         }
-        var_dump($versement);
-        die();
-        $entityManager->persist($versement);
-        $entityManager->flush();
+        return $this->handleView($this->view($form->getErrors()));
         
-        $data = [
-            'status' => 201,
-            'message' => 'Le versement a bien été ajouté'
-        ];
-        $partenaire=$versement->getPartenaire();
-        $solde=$partenaire->getSolde()+$versement->getMontant();
-        $partenaire->setSolde($solde);
-        
-        $entityManager->persist($partenaire);
-        $entityManager->flush();
-    
-        return new JsonResponse($data, 201);
     }
 }
