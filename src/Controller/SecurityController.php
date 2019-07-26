@@ -50,4 +50,15 @@ class SecurityController extends FOSRestController
 
         return $this->handleView($this->view($form->getErrors()));
     }
+    /**
+    * @Route("/login", name="login", methods={"POST"})
+    */
+    public function login(Request $request)
+    {
+        $user = $this->getUser();
+        return $this->json([
+            'username' => $user->getUsername(),
+            'roles' => $user->getRoles()
+        ]);
+    }
 }

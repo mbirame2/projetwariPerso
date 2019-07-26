@@ -7,6 +7,7 @@ return [
     'list_partenaire' => [[], ['_controller' => 'App\\Controller\\PartenaireController::index'], [], [['text', '/api/partenaire']], [], []],
     'ajout' => [[], ['_controller' => 'App\\Controller\\PartenaireController::new'], [], [['text', '/api/ajout_partenaire']], [], []],
     '_apiapp_register' => [[], ['_controller' => 'App\\Controller\\SecurityController::register'], [], [['text', '/api/register']], [], []],
+    '_apilogin' => [[], ['_controller' => 'App\\Controller\\SecurityController::login'], [], [['text', '/api/login']], [], []],
     'list_des_versements' => [[], ['_controller' => 'App\\Controller\\VersementController::index'], [], [['text', '/api/versement']], [], []],
     'ajout_versement' => [[], ['_controller' => 'App\\Controller\\VersementController::ajout'], [], [['text', '/api/ajout_versement']], [], []],
     'api_entrypoint' => [['index', '_format'], ['_controller' => 'api_platform.action.entrypoint', '_format' => '', '_api_respond' => 'true', 'index' => 'index'], ['index' => 'index'], [['variable', '.', '[^/]++', '_format', true], ['variable', '/', 'index', 'index', true], ['text', '/api']], [], []],
@@ -22,4 +23,5 @@ return [
     'api_versements_get_item' => [['id', '_format'], ['_controller' => 'api_platform.action.get_item', '_format' => null, '_api_resource_class' => 'App\\Entity\\Versement', '_api_item_operation_name' => 'get'], [], [['variable', '.', '[^/]++', '_format', true], ['variable', '/', '[^/\\.]++', 'id', true], ['text', '/api/versements']], [], []],
     'api_versements_delete_item' => [['id', '_format'], ['_controller' => 'api_platform.action.delete_item', '_format' => null, '_api_resource_class' => 'App\\Entity\\Versement', '_api_item_operation_name' => 'delete'], [], [['variable', '.', '[^/]++', '_format', true], ['variable', '/', '[^/\\.]++', 'id', true], ['text', '/api/versements']], [], []],
     'api_versements_put_item' => [['id', '_format'], ['_controller' => 'api_platform.action.put_item', '_format' => null, '_api_resource_class' => 'App\\Entity\\Versement', '_api_item_operation_name' => 'put'], [], [['variable', '.', '[^/]++', '_format', true], ['variable', '/', '[^/\\.]++', 'id', true], ['text', '/api/versements']], [], []],
+    'api_login_check' => [[], [], [], [['text', '/api/login_check']], [], []],
 ];
