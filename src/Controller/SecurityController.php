@@ -9,18 +9,19 @@ use Doctrine\ORM\EntityManagerInterface;
 use App\Entity\User;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use App\Form\UserType;
-use FOS\RestBundle\Controller\FOSRestController;
 use Symfony\Component\HttpFoundation\Response;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
+use App\Repository\UserRepository;
+use FOS\RestBundle\Controller\AbstractFOSRestController;
 
 /**
 * @Route("/api",name="_api")
-* @Security("has_role('ROLE_AdminWari') or has_role('ROLE_SuperAdminPartenaire')")
 */
-class SecurityController extends FOSRestController
+class SecurityController extends AbstractFOSRestController
 {
     /**
     * @Route("/register", name="app_register")
+    *@Security("has_role('ROLE_AdminWari') or has_role('ROLE_SuperAdminPartenaire')")
     */
     public function register(Request $request, UserPasswordEncoderInterface $passwordEncoder): Response
     {
@@ -46,7 +47,7 @@ class SecurityController extends FOSRestController
                 $user->setRoles(['ROLE_USER']);
                 $user->setProprietaire($connecte->getProprietaire());
             }
-            $user->setStatus('Débloquer?');
+            $user->setStatus('Bloquer?');
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($user);
             $entityManager->flush();
@@ -58,19 +59,55 @@ class SecurityController extends FOSRestController
         return $this->handleView($this->view($form->getErrors()));
     }
     /**
+     * @Route("/users",name="users",methods={"GET"})
+     * @Security("has_role('ROLE_AdminWari') or has_role('ROLE_SuperAdminPartenaire')")
+     */
+    public function index(UserRepository $repo)
+    {
+        $users=$repo->findAll();
+        return $this->handleView($this->view($users));
+    }
+    /**
     * @Route("/login", name="login", methods={"POST"})
     */
     public function login(Request $request)
     {
         $user = $this->getUser();
-        return $this->json([
-            'username' => $user->getUsername(),
-            'roles' => $user->getRoles()
-        ]);
+        if($user->getStatus()=='Bloquer?'){
+            return $this->json([
+                'username' => $user->getUsername(),
+                'roles' => $user->getRoles()
+            ]);
+        }else{
+            $data = [
+                'status' => 401,
+                'message' => 'compte bloqué'
+            ];
+            return new JsonResponse($data, 401);
+        }
+        
     }
     /**
     * @Route("/logout", name="app_logout", methods={"GET"})
     */
     public function logout()
-    {}
+    {
+        //throw new \Exception('Don\'t forget to activate logout in security.yaml');
+    }
+    /**
+    * @Route("/user/status/{id}", name="status",methods={"PUT"})
+    *@Security("has_role('ROLE_AdminWari') or has_role('ROLE_SuperAdminPartenaire')")
+    */
+    public function status(User $user)
+    {
+        if($user->getStatus()=='Débloquer?'){
+            $user->setStatus('Bloquer?');
+        }else{
+            $user->setStatus('Débloquer?');
+        }
+        $entityManager = $this->getDoctrine()->getManager();
+        $entityManager->persist($user);
+        $entityManager->flush();
+        return $this->handleView($this->view(['status'=>'ok'],Response::HTTP_CREATED));
+    }
 }

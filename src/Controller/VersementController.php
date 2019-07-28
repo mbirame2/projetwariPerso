@@ -12,14 +12,14 @@ use Symfony\Component\Validator\Validator\ValidatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use App\Form\VersementType;
 use Symfony\Component\HttpFoundation\Response;
-use FOS\RestBundle\Controller\FOSRestController;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
+use FOS\RestBundle\Controller\AbstractFOSRestController;
 
 /**
 * @Route("/api")
 * @Security("has_role('ROLE_Caissier')")
 */
-class VersementController extends FOSRestController
+class VersementController extends AbstractFOSRestController
 {
   /**
      * @Route("/versement", name="list_des_versements", methods={"GET"})
@@ -46,7 +46,6 @@ class VersementController extends FOSRestController
         
         if($form->isSubmitted() && $form->isValid()){
             $versement->setDateVersement(new \Datetime());
-            var_dump($data);
             $connecte = $this->getUser();
             $versement->setCaissier($connecte->getId());
             $em=$this->getDoctrine()->getManager();
