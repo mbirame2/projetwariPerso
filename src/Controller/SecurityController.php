@@ -11,9 +11,11 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use App\Form\UserType;
 use FOS\RestBundle\Controller\FOSRestController;
 use Symfony\Component\HttpFoundation\Response;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 
 /**
 * @Route("/api",name="_api")
+* @Security("has_role('ROLE_AdminWari') or has_role('ROLE_SuperAdminPartenaire')")
 */
 class SecurityController extends FOSRestController
 {
@@ -35,14 +37,19 @@ class SecurityController extends FOSRestController
                     $form->get('plainPassword')->getData()
                 )
             );
-            $user->setRoles(['ROLE_AdminWari']);
-            $user->setStatus('Actif');
-            $user->setProprietaire($user->getUsername());
+            $connecte = $this->getUser();
+            //var_dump($connecte);die;
+            if($connecte->getRoles()[0]=='ROLE_AdminWari'){
+                $user->setRoles(['ROLE_Caissier']);
+                $user->setProprietaire('WARI');
+            }else{
+                $user->setRoles(['ROLE_USER']);
+                $user->setProprietaire($connecte->getProprietaire());
+            }
+            $user->setStatus('Débloquer?');
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($user);
             $entityManager->flush();
-
-            // do anything else you need here, like send an email
 
             return $this->handleView($this->view(['status'=>'ok'],Response::HTTP_CREATED));
 
@@ -61,4 +68,9 @@ class SecurityController extends FOSRestController
             'roles' => $user->getRoles()
         ]);
     }
+    /**
+    * @Route("/logout", name="app_logout", methods={"GET"})
+    */
+    public function logout()
+    {}
 }

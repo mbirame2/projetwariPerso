@@ -2413,6 +2413,14 @@
       <argument type="service" id="request_stack" on-invalid="null"/>
       <argument type="service" id="router.default" on-invalid="null"/>
       <argument type="service" id="security.token_storage" on-invalid="null"/>
+      <call method="registerListener">
+        <argument>login</argument>
+        <argument>app_logout</argument>
+        <argument>logout</argument>
+        <argument>_csrf_token</argument>
+        <argument>null</argument>
+        <argument>null</argument>
+      </call>
     </service>
     <service id="security.user.provider.missing" class="Symfony\Component\Security\Core\User\MissingUserProvider" public="false" abstract="true">
       <argument></argument>
@@ -2850,6 +2858,23 @@
     <service id=".security.request_matcher.HeUdK73" class="Symfony\Component\HttpFoundation\RequestMatcher" public="false">
       <argument>^/api/login</argument>
     </service>
+    <service id="security.logout_listener.login" class="Symfony\Component\Security\Http\Firewall\LogoutListener" public="false">
+      <argument type="service" id="security.token_storage"/>
+      <argument type="service" id="security.http_utils"/>
+      <argument type="service" id="security.logout.success_handler.login"/>
+      <argument type="collection">
+        <argument key="csrf_parameter">_csrf_token</argument>
+        <argument key="csrf_token_id">logout</argument>
+        <argument key="logout_path">app_logout</argument>
+      </argument>
+      <call method="addHandler">
+        <argument type="service" id="security.logout.handler.csrf_token_clearing"/>
+      </call>
+    </service>
+    <service id="security.logout.success_handler.login" class="Symfony\Component\Security\Http\Logout\DefaultLogoutSuccessHandler" public="false">
+      <argument type="service" id="security.http_utils"/>
+      <argument>/</argument>
+    </service>
     <service id="security.authentication.provider.dao.login" class="Symfony\Component\Security\Core\Authentication\Provider\DaoAuthenticationProvider" public="false">
       <argument type="service" id="security.user.provider.concrete.app_user_provider"/>
       <argument type="service" id="security.user_checker"/>
@@ -2915,7 +2940,7 @@
         <argument type="service" id="security.access_listener"/>
       </argument>
       <argument type="service" id="security.exception_listener.login"/>
-      <argument>null</argument>
+      <argument type="service" id="security.logout_listener.login"/>
       <argument type="service" id="security.firewall.map.config.login"/>
     </service>
     <service id="security.firewall.map.config.api" class="Symfony\Bundle\SecurityBundle\Security\FirewallConfig" public="false">
@@ -4408,7 +4433,7 @@
       <tag name="console.command" command="server:run"/>
       <argument>/var/www/html/API/Transfert-Argent-BackEnd/public</argument>
       <argument>dev</argument>
-      <argument>/var/www/html/API/Transfert-Argent-BackEnd</argument>
+      <argument>/var/www/html/API/Transfert-Argent-BackEnd/var/cache</argument>
       <call method="setName">
         <argument>server:run</argument>
       </call>
@@ -4417,21 +4442,21 @@
       <tag name="console.command" command="server:start"/>
       <argument>/var/www/html/API/Transfert-Argent-BackEnd/public</argument>
       <argument>dev</argument>
-      <argument>/var/www/html/API/Transfert-Argent-BackEnd</argument>
+      <argument>/var/www/html/API/Transfert-Argent-BackEnd/var/cache</argument>
       <call method="setName">
         <argument>server:start</argument>
       </call>
     </service>
     <service id="web_server.command.server_stop" class="Symfony\Bundle\WebServerBundle\Command\ServerStopCommand" public="false">
       <tag name="console.command" command="server:stop"/>
-      <argument>/var/www/html/API/Transfert-Argent-BackEnd</argument>
+      <argument>/var/www/html/API/Transfert-Argent-BackEnd/var/cache</argument>
       <call method="setName">
         <argument>server:stop</argument>
       </call>
     </service>
     <service id="web_server.command.server_status" class="Symfony\Bundle\WebServerBundle\Command\ServerStatusCommand" public="false">
       <tag name="console.command" command="server:status"/>
-      <argument>/var/www/html/API/Transfert-Argent-BackEnd</argument>
+      <argument>/var/www/html/API/Transfert-Argent-BackEnd/var/cache</argument>
       <call method="setName">
         <argument>server:status</argument>
       </call>

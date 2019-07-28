@@ -32,7 +32,7 @@ class PartenaireController extends AbstractController
         ]);
     }
     /**
-     * @Route("/api/ajout_partenaire", name="ajout", methods={"POST"})
+     * @Route("/api/ajout_partenaire", name="ajout_partenaire", methods={"POST"})
      */
     public function new(Request $request, SerializerInterface $serializer, EntityManagerInterface $entityManager, ValidatorInterface $validator, UserPasswordEncoderInterface $passwordEncoder)
     {
@@ -62,9 +62,10 @@ class PartenaireController extends AbstractController
         $user->setNomComplet($part->getRaisonSocial());
         $user->setRoles(['ROLE_SuperAdminPartenaire']);
         $user->setStatus('Actif');
-        $user->setProprietaire($user->getUsername());
+        $user->setProprietaire($part->getId());
         $entityManager->persist($user);
         $entityManager->flush();
         return new JsonResponse($data, 201);
     }
+    
 }

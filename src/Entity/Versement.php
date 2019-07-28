@@ -34,6 +34,11 @@ class Versement
      */
     private $dateVersement;
 
+    /**
+     * @ORM\Column(type="integer")
+     */
+    private $caissier;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -71,6 +76,18 @@ class Versement
     public function setDateVersement(\DateTimeInterface $dateVersement): self
     {
         $this->dateVersement = $dateVersement;
+
+        return $this;
+    }
+
+    public function getCaissier(): ?int
+    {
+        return $this->caissier;
+    }
+
+    public function setCaissier(int $caissier): self
+    {
+        $this->caissier = $caissier;
 
         return $this;
     }
