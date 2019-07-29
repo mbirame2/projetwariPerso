@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <testsuites>
+<<<<<<< HEAD
   <testsuite name="Project Test Suite" tests="5" assertions="5" errors="0" failures="0" skipped="0" time="0.888429">
     <testsuite name="App\Tests\PartenaireControllerTest" file="/home/birame/Transfert-Argent-BackEnd/tests/PartenaireControllerTest.php" tests="3" assertions="3" errors="0" failures="0" skipped="0" time="0.688866">
       <testcase name="testIndex" class="App\Tests\PartenaireControllerTest" classname="App.Tests.PartenaireControllerTest" file="/home/birame/Transfert-Argent-BackEnd/tests/PartenaireControllerTest.php" line="9" assertions="1" time="0.487664"/>
@@ -7,172 +8,218 @@
         <system-out>/home/birame/Transfert-Argent-BackEnd/tests/PartenaireControllerTest.php:39:
 class Lexik\Bundle\JWTAuthenticationBundle\Response\JWTAuthenticationFailureResponse#232 (10) {
   private $message =&gt;
+=======
+  <testsuite name="Project Test Suite" tests="5" assertions="5" errors="0" failures="0" skipped="0" time="1.826040">
+    <testsuite name="App\Tests\PartenaireControllerTest" file="/var/www/html/API/Transfert-Argent-BackEnd/tests/PartenaireControllerTest.php" tests="3" assertions="3" errors="0" failures="0" skipped="0" time="1.785297">
+      <testcase name="testIndex" class="App\Tests\PartenaireControllerTest" classname="App.Tests.PartenaireControllerTest" file="/var/www/html/API/Transfert-Argent-BackEnd/tests/PartenaireControllerTest.php" line="9" assertions="1" time="1.752501"/>
+      <testcase name="testAjoutOk" class="App\Tests\PartenaireControllerTest" classname="App.Tests.PartenaireControllerTest" file="/var/www/html/API/Transfert-Argent-BackEnd/tests/PartenaireControllerTest.php" line="20" assertions="1" time="0.021618">
+        <system-out>object(Lexik\Bundle\JWTAuthenticationBundle\Response\JWTAuthenticationFailureResponse)#2217 (10) {
+  ["message":"Lexik\Bundle\JWTAuthenticationBundle\Response\JWTAuthenticationFailureResponse":private]=&gt;
+>>>>>>> 9cca5237052754890c0bc9545bb2f4a2edf6e767
   string(19) "JWT Token not found"
-  protected $data =&gt;
+  ["data":protected]=&gt;
   string(44) "{"code":401,"message":"JWT Token not found"}"
-  protected $callback =&gt;
+  ["callback":protected]=&gt;
   NULL
-  protected $encodingOptions =&gt;
+  ["encodingOptions":protected]=&gt;
   int(15)
+<<<<<<< HEAD
   public $headers =&gt;
   class Symfony\Component\HttpFoundation\ResponseHeaderBag#231 (5) {
     protected $computedCacheControl =&gt;
+=======
+  ["headers"]=&gt;
+  object(Symfony\Component\HttpFoundation\ResponseHeaderBag)#5523 (5) {
+    ["computedCacheControl":protected]=&gt;
+>>>>>>> 9cca5237052754890c0bc9545bb2f4a2edf6e767
     array(2) {
-      'no-cache' =&gt;
+      ["no-cache"]=&gt;
       bool(true)
-      'private' =&gt;
+      ["private"]=&gt;
       bool(true)
     }
-    protected $cookies =&gt;
+    ["cookies":protected]=&gt;
     array(0) {
     }
-    protected $headerNames =&gt;
+    ["headerNames":protected]=&gt;
     array(6) {
-      'www-authenticate' =&gt;
+      ["www-authenticate"]=&gt;
       string(16) "WWW-Authenticate"
-      'cache-control' =&gt;
+      ["cache-control"]=&gt;
       string(13) "Cache-Control"
-      'date' =&gt;
+      ["date"]=&gt;
       string(4) "Date"
-      'content-type' =&gt;
+      ["content-type"]=&gt;
       string(12) "Content-Type"
-      'link' =&gt;
+      ["link"]=&gt;
       string(4) "Link"
-      'x-robots-tag' =&gt;
+      ["x-robots-tag"]=&gt;
       string(12) "X-Robots-Tag"
     }
-    protected $headers =&gt;
+    ["headers":protected]=&gt;
     array(6) {
-      'www-authenticate' =&gt;
+      ["www-authenticate"]=&gt;
       array(1) {
-        ...
+        [0]=&gt;
+        string(6) "Bearer"
       }
-      'cache-control' =&gt;
+      ["cache-control"]=&gt;
       array(1) {
-        ...
+        [0]=&gt;
+        string(17) "no-cache, private"
       }
-      'date' =&gt;
+      ["date"]=&gt;
       array(1) {
-        ...
+        [0]=&gt;
+        string(29) "Mon, 29 Jul 2019 15:31:17 GMT"
       }
-      'content-type' =&gt;
+      ["content-type"]=&gt;
       array(1) {
-        ...
+        [0]=&gt;
+        string(16) "application/json"
       }
-      'link' =&gt;
+      ["link"]=&gt;
       array(1) {
-        ...
+        [0]=&gt;
+        string(90) "&lt;http://localhost/api/docs.jsonld&gt;; rel="http://www.w3.org/ns/hydra/core#apiDocumentation""
       }
-      'x-robots-tag' =&gt;
+      ["x-robots-tag"]=&gt;
       array(1) {
-        ...
+        [0]=&gt;
+        string(7) "noindex"
       }
     }
-    protected $cacheControl =&gt;
+    ["cacheControl":protected]=&gt;
     array(0) {
     }
   }
-  protected $content =&gt;
+  ["content":protected]=&gt;
   string(44) "{"code":401,"message":"JWT Token not found"}"
-  protected $version =&gt;
+  ["version":protected]=&gt;
   string(3) "1.1"
-  protected $statusCode =&gt;
+  ["statusCode":protected]=&gt;
   int(401)
-  protected $statusText =&gt;
+  ["statusText":protected]=&gt;
   string(12) "Unauthorized"
-  protected $charset =&gt;
+  ["charset":protected]=&gt;
   string(5) "UTF-8"
 }
 </system-out>
       </testcase>
+<<<<<<< HEAD
       <testcase name="testAjoutKo" class="App\Tests\PartenaireControllerTest" classname="App.Tests.PartenaireControllerTest" file="/home/birame/Transfert-Argent-BackEnd/tests/PartenaireControllerTest.php" line="43" assertions="1" time="0.105112">
         <system-out>/home/birame/Transfert-Argent-BackEnd/tests/PartenaireControllerTest.php:62:
 class Lexik\Bundle\JWTAuthenticationBundle\Response\JWTAuthenticationFailureResponse#1006 (10) {
   private $message =&gt;
+=======
+      <testcase name="testAjoutKo" class="App\Tests\PartenaireControllerTest" classname="App.Tests.PartenaireControllerTest" file="/var/www/html/API/Transfert-Argent-BackEnd/tests/PartenaireControllerTest.php" line="43" assertions="1" time="0.011178">
+        <system-out>object(Lexik\Bundle\JWTAuthenticationBundle\Response\JWTAuthenticationFailureResponse)#6476 (10) {
+  ["message":"Lexik\Bundle\JWTAuthenticationBundle\Response\JWTAuthenticationFailureResponse":private]=&gt;
+>>>>>>> 9cca5237052754890c0bc9545bb2f4a2edf6e767
   string(19) "JWT Token not found"
-  protected $data =&gt;
+  ["data":protected]=&gt;
   string(44) "{"code":401,"message":"JWT Token not found"}"
-  protected $callback =&gt;
+  ["callback":protected]=&gt;
   NULL
-  protected $encodingOptions =&gt;
+  ["encodingOptions":protected]=&gt;
   int(15)
+<<<<<<< HEAD
   public $headers =&gt;
   class Symfony\Component\HttpFoundation\ResponseHeaderBag#1005 (5) {
     protected $computedCacheControl =&gt;
+=======
+  ["headers"]=&gt;
+  object(Symfony\Component\HttpFoundation\ResponseHeaderBag)#2205 (5) {
+    ["computedCacheControl":protected]=&gt;
+>>>>>>> 9cca5237052754890c0bc9545bb2f4a2edf6e767
     array(2) {
-      'no-cache' =&gt;
+      ["no-cache"]=&gt;
       bool(true)
-      'private' =&gt;
+      ["private"]=&gt;
       bool(true)
     }
-    protected $cookies =&gt;
+    ["cookies":protected]=&gt;
     array(0) {
     }
-    protected $headerNames =&gt;
+    ["headerNames":protected]=&gt;
     array(6) {
-      'www-authenticate' =&gt;
+      ["www-authenticate"]=&gt;
       string(16) "WWW-Authenticate"
-      'cache-control' =&gt;
+      ["cache-control"]=&gt;
       string(13) "Cache-Control"
-      'date' =&gt;
+      ["date"]=&gt;
       string(4) "Date"
-      'content-type' =&gt;
+      ["content-type"]=&gt;
       string(12) "Content-Type"
-      'link' =&gt;
+      ["link"]=&gt;
       string(4) "Link"
-      'x-robots-tag' =&gt;
+      ["x-robots-tag"]=&gt;
       string(12) "X-Robots-Tag"
     }
-    protected $headers =&gt;
+    ["headers":protected]=&gt;
     array(6) {
-      'www-authenticate' =&gt;
+      ["www-authenticate"]=&gt;
       array(1) {
-        ...
+        [0]=&gt;
+        string(6) "Bearer"
       }
-      'cache-control' =&gt;
+      ["cache-control"]=&gt;
       array(1) {
-        ...
+        [0]=&gt;
+        string(17) "no-cache, private"
       }
-      'date' =&gt;
+      ["date"]=&gt;
       array(1) {
-        ...
+        [0]=&gt;
+        string(29) "Mon, 29 Jul 2019 15:31:17 GMT"
       }
-      'content-type' =&gt;
+      ["content-type"]=&gt;
       array(1) {
-        ...
+        [0]=&gt;
+        string(16) "application/json"
       }
-      'link' =&gt;
+      ["link"]=&gt;
       array(1) {
-        ...
+        [0]=&gt;
+        string(90) "&lt;http://localhost/api/docs.jsonld&gt;; rel="http://www.w3.org/ns/hydra/core#apiDocumentation""
       }
-      'x-robots-tag' =&gt;
+      ["x-robots-tag"]=&gt;
       array(1) {
-        ...
+        [0]=&gt;
+        string(7) "noindex"
       }
     }
-    protected $cacheControl =&gt;
+    ["cacheControl":protected]=&gt;
     array(0) {
     }
   }
-  protected $content =&gt;
+  ["content":protected]=&gt;
   string(44) "{"code":401,"message":"JWT Token not found"}"
-  protected $version =&gt;
+  ["version":protected]=&gt;
   string(3) "1.1"
-  protected $statusCode =&gt;
+  ["statusCode":protected]=&gt;
   int(401)
-  protected $statusText =&gt;
+  ["statusText":protected]=&gt;
   string(12) "Unauthorized"
-  protected $charset =&gt;
+  ["charset":protected]=&gt;
   string(5) "UTF-8"
 }
 </system-out>
       </testcase>
     </testsuite>
+<<<<<<< HEAD
     <testsuite name="App\Tests\SecurityControllerTest" file="/home/birame/Transfert-Argent-BackEnd/tests/SecurityControllerTest.php" tests="1" assertions="1" errors="0" failures="0" skipped="0" time="0.102971">
       <testcase name="testIndex" class="App\Tests\SecurityControllerTest" classname="App.Tests.SecurityControllerTest" file="/home/birame/Transfert-Argent-BackEnd/tests/SecurityControllerTest.php" line="9" assertions="1" time="0.102971"/>
     </testsuite>
     <testsuite name="App\Tests\VersementControllerTest" file="/home/birame/Transfert-Argent-BackEnd/tests/VersementControllerTest.php" tests="1" assertions="1" errors="0" failures="0" skipped="0" time="0.096592">
       <testcase name="testIndex" class="App\Tests\VersementControllerTest" classname="App.Tests.VersementControllerTest" file="/home/birame/Transfert-Argent-BackEnd/tests/VersementControllerTest.php" line="8" assertions="1" time="0.096592"/>
+=======
+    <testsuite name="App\Tests\SecurityControllerTest" file="/var/www/html/API/Transfert-Argent-BackEnd/tests/SecurityControllerTest.php" tests="1" assertions="1" errors="0" failures="0" skipped="0" time="0.017595">
+      <testcase name="testIndex" class="App\Tests\SecurityControllerTest" classname="App.Tests.SecurityControllerTest" file="/var/www/html/API/Transfert-Argent-BackEnd/tests/SecurityControllerTest.php" line="9" assertions="1" time="0.017595"/>
+    </testsuite>
+    <testsuite name="App\Tests\VersementControllerTest" file="/var/www/html/API/Transfert-Argent-BackEnd/tests/VersementControllerTest.php" tests="1" assertions="1" errors="0" failures="0" skipped="0" time="0.023148">
+      <testcase name="testIndex" class="App\Tests\VersementControllerTest" classname="App.Tests.VersementControllerTest" file="/var/www/html/API/Transfert-Argent-BackEnd/tests/VersementControllerTest.php" line="8" assertions="1" time="0.023148"/>
+>>>>>>> 9cca5237052754890c0bc9545bb2f4a2edf6e767
     </testsuite>
   </testsuite>
 </testsuites>
