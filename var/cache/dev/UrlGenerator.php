@@ -6,6 +6,7 @@ return [
     '_twig_error_test' => [['code', '_format'], ['_controller' => 'twig.controller.preview_error::previewErrorPageAction', '_format' => 'html'], ['code' => '\\d+'], [['variable', '.', '[^/]++', '_format', true], ['variable', '/', '\\d+', 'code', true], ['text', '/_error']], [], []],
     'list_partenaire' => [[], ['_controller' => 'App\\Controller\\PartenaireController::index'], [], [['text', '/api/partenaire']], [], []],
     'ajout' => [[], ['_controller' => 'App\\Controller\\PartenaireController::new'], [], [['text', '/api/ajout_partenaire']], [], []],
+    'modifier_partenaire' => [['id'], ['_controller' => 'App\\Controller\\PartenaireController::update'], [], [['variable', '/', '[^/]++', 'id', true], ['text', '/api/partenaire']], [], []],
     '_apiapp_register' => [[], ['_controller' => 'App\\Controller\\SecurityController::register'], [], [['text', '/api/register']], [], []],
     '_apilogin' => [[], ['_controller' => 'App\\Controller\\SecurityController::login'], [], [['text', '/api/login']], [], []],
     'list_des_versements' => [[], ['_controller' => 'App\\Controller\\VersementController::index'], [], [['text', '/api/versement']], [], []],
