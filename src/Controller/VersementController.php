@@ -12,12 +12,17 @@ use Symfony\Component\Validator\Validator\ValidatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use App\Form\VersementType;
 use Symfony\Component\HttpFoundation\Response;
-use FOS\RestBundle\Controller\FOSRestController;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
+use FOS\RestBundle\Controller\AbstractFOSRestController;
 
-class VersementController extends FOSRestController
+/**
+* @Route("/api")
+* @Security("has_role('ROLE_Caissier')")
+*/
+class VersementController extends AbstractFOSRestController
 {
   /**
-     * @Route("/api/versement", name="list_des_versements", methods={"GET"})
+     * @Route("/versement", name="list_des_versements", methods={"GET"})
      */
     public function index(VersementRepository $versementRepository, SerializerInterface $serializer)
     {
@@ -30,7 +35,7 @@ class VersementController extends FOSRestController
     }
 
    /**
-     *@Route("/api/ajout_versement", name="ajout_versement", methods={"POST"})
+     *@Route("/ajout_versement", name="ajout_versement", methods={"POST"})
      */
     public function ajout(Request $request)
     {
@@ -41,7 +46,8 @@ class VersementController extends FOSRestController
         
         if($form->isSubmitted() && $form->isValid()){
             $versement->setDateVersement(new \Datetime());
-            var_dump($data);
+            $connecte = $this->getUser();
+            $versement->setCaissier($connecte->getId());
             $em=$this->getDoctrine()->getManager();
             $em->persist($versement);
             $em->flush();

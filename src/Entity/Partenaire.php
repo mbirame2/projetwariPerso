@@ -6,10 +6,14 @@ use ApiPlatform\Core\Annotation\ApiResource;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 /**
  * @ApiResource()
  * @ORM\Entity(repositoryClass="App\Repository\PartenaireRepository")
+ * @UniqueEntity(fields={"ninea"}, message="le ninea doit etre unique")
+ * @UniqueEntity(fields={"raisonSocial"}, message="la raison sociale doit etre unique")
+ * @UniqueEntity(fields={"numeroCompte"}, message="le compte doit etre unique")
  */
 class Partenaire
 {

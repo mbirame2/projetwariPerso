@@ -267,7 +267,11 @@
         "version": "v4.3.2"
     },
     "symfony/browser-kit": {
+<<<<<<< HEAD
         "version": "v4.3.2"
+=======
+        "version": "v4.3.3"
+>>>>>>> db76476ffb05380ef49a4ed256b346dc90e875a6
     },
     "symfony/cache": {
         "version": "v4.3.2"
@@ -292,7 +296,11 @@
         ]
     },
     "symfony/css-selector": {
+<<<<<<< HEAD
         "version": "v4.3.2"
+=======
+        "version": "v4.3.3"
+>>>>>>> db76476ffb05380ef49a4ed256b346dc90e875a6
     },
     "symfony/debug": {
         "version": "v4.3.2"
@@ -304,7 +312,11 @@
         "version": "v4.3.2"
     },
     "symfony/dom-crawler": {
+<<<<<<< HEAD
         "version": "v4.3.2"
+=======
+        "version": "v4.3.3"
+>>>>>>> db76476ffb05380ef49a4ed256b346dc90e875a6
     },
     "symfony/dotenv": {
         "version": "v4.3.2"

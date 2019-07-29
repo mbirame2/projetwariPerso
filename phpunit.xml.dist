@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <!-- https://phpunit.de/manual/current/en/appendixes.configuration.html -->
+<<<<<<< HEAD
 <phpunit backupGlobals="false"
          backupStaticAttributes="false"
          colors="true"
@@ -10,6 +11,12 @@
          processIsolation="false"
          stopOnFailure="false"
          verbose="true"
+=======
+<phpunit xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:noNamespaceSchemaLocation="http://schema.phpunit.de/6.5/phpunit.xsd"
+         backupGlobals="false"
+         colors="true"
+>>>>>>> db76476ffb05380ef49a4ed256b346dc90e875a6
          bootstrap="config/bootstrap.php"
 >
     <php>
@@ -18,10 +25,13 @@
         <server name="SHELL_VERBOSITY" value="-1" />
         <server name="SYMFONY_PHPUNIT_REMOVE" value="" />
         <server name="SYMFONY_PHPUNIT_VERSION" value="6.5" />
+<<<<<<< HEAD
         <server name="KERNEL_CLASS" value="App\Kernel" />
         <server name="SYMFONY_DEPRECATIONS_HELPER" value="weak" />
         <server name="DATABASE_URL" value="mysql://symfony:passer@127.0.0.1:3306/transfertwari" />
         <server name="CORS_ALLOW_ORIGIN" value="*" />
+=======
+>>>>>>> db76476ffb05380ef49a4ed256b346dc90e875a6
     </php>
 
     <testsuites>
@@ -31,17 +41,26 @@
     </testsuites>
 
     <filter>
+<<<<<<< HEAD
         <whitelist processUncoveredFilesFromWhitelist="true">
             <directory suffix=".php">src</directory>
+=======
+        <whitelist>
+            <directory>src</directory>
+>>>>>>> db76476ffb05380ef49a4ed256b346dc90e875a6
         </whitelist>
     </filter>
 
     <listeners>
         <listener class="Symfony\Bridge\PhpUnit\SymfonyTestsListener" />
     </listeners>
+<<<<<<< HEAD
      <logging>
         <log type="coverage-clover" target="clover.xml"/>
         <log type="junit" target="coverage.xml"/>
     </logging>
 
 </phpunit>
+=======
+</phpunit>
+>>>>>>> db76476ffb05380ef49a4ed256b346dc90e875a6
