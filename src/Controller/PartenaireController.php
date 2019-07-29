@@ -70,7 +70,6 @@ class PartenaireController extends AbstractController
         $entityManager->flush();
         return new JsonResponse($data, 201);
     }
-<<<<<<< HEAD
 
 
 
@@ -106,7 +105,4 @@ return new JsonResponse($data);
 
 
 
-=======
-    
->>>>>>> db76476ffb05380ef49a4ed256b346dc90e875a6
 }
