@@ -19,6 +19,7 @@ use FOS\RestBundle\Controller\AbstractFOSRestController;
 */
 class SecurityController extends AbstractFOSRestController
 {
+    private $status="status";
     /**
     * @Route("/register", name="app_register")
     *@Security("has_role('ROLE_AdminWari') or has_role('ROLE_SuperAdminPartenaire')")
@@ -39,7 +40,6 @@ class SecurityController extends AbstractFOSRestController
                 )
             );
             $connecte = $this->getUser();
-            //var_dump($connecte);die;
             if($connecte->getRoles()[0]=='ROLE_AdminWari'){
                 $user->setRoles(['ROLE_Caissier']);
                 $user->setProprietaire('WARI');
@@ -47,12 +47,12 @@ class SecurityController extends AbstractFOSRestController
                 $user->setRoles(['ROLE_USER']);
                 $user->setProprietaire($connecte->getProprietaire());
             }
-            $user->setStatus('Bloquer?');
+            $user->setStatus('Bloquer');
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($user);
             $entityManager->flush();
 
-            return $this->handleView($this->view(['status'=>'ok'],Response::HTTP_CREATED));
+            return $this->handleView($this->view([$this->status=>'ok'],Response::HTTP_CREATED));
 
         }
 
@@ -73,7 +73,7 @@ class SecurityController extends AbstractFOSRestController
     public function login(Request $request)
     {
         $user = $this->getUser();
-        if($user->getStatus()=='Bloquer?'){
+        if($user->getStatus()=='Debloquer?'){
             return $this->json([
                 'username' => $user->getUsername(),
                 'roles' => $user->getRoles()
@@ -92,7 +92,6 @@ class SecurityController extends AbstractFOSRestController
     */
     public function logout()
     {
-        //throw new \Exception('Don\'t forget to activate logout in security.yaml');
     }
     /**
     * @Route("/user/status/{id}", name="status",methods={"PUT"})
@@ -108,6 +107,6 @@ class SecurityController extends AbstractFOSRestController
         $entityManager = $this->getDoctrine()->getManager();
         $entityManager->persist($user);
         $entityManager->flush();
-        return $this->handleView($this->view(['status'=>'ok'],Response::HTTP_CREATED));
+        return $this->handleView($this->view([$this->status=>'ok'],Response::HTTP_CREATED));
     }
 }

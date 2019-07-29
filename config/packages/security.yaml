@@ -2,6 +2,9 @@ security:
     encoders:
         App\Entity\User:
             algorithm: auto
+        role_hierarchy:
+        ROLE_ADMIN:       ROLE_USER
+        ROLE_SUPER_ADMIN: [ROLE_ADMIN, ROLE_ALLOWED_TO_SWITCH]
 
     # https://symfony.com/doc/current/security.html#where-do-users-come-from-user-providers
     providers:
@@ -19,19 +22,12 @@ security:
             stateless: true
             anonymous: true
             json_login:
-<<<<<<< HEAD
-                check_path:               /api/login_check
-                success_handler:          lexik_jwt_authentication.handler.authentication_success
-                failure_handler:          lexik_jwt_authentication.handler.authentication_failure
-
-=======
                 check_path: /api/login_check
                 success_handler: lexik_jwt_authentication.handler.authentication_success
                 failure_handler: lexik_jwt_authentication.handler.authentication_failure
             logout:
                 path:   app_logout
                 target: login
->>>>>>> db76476ffb05380ef49a4ed256b346dc90e875a6
         api:
             pattern:   ^/api
             stateless: true

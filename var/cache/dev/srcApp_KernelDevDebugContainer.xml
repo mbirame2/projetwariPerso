@@ -1472,6 +1472,14 @@
         <argument>2048</argument>
       </call>
       <call method="addListener">
+        <argument>console.command</argument>
+        <argument type="collection">
+          <argument type="service" id="debug.debug_handlers_listener"/>
+          <argument>configure</argument>
+        </argument>
+        <argument>2048</argument>
+      </call>
+      <call method="addListener">
         <argument>kernel.exception</argument>
         <argument type="collection">
           <argument type="service" id="debug.debug_handlers_listener"/>
@@ -4439,7 +4447,7 @@
       <tag name="console.command" command="server:run"/>
       <argument>/home/birame/Transfert-Argent-BackEnd/public</argument>
       <argument>dev</argument>
-      <argument>/home/birame/Transfert-Argent-BackEnd/var/cache</argument>
+      <argument>/home/birame/Transfert-Argent-BackEnd</argument>
       <call method="setName">
         <argument>server:run</argument>
       </call>
@@ -4448,21 +4456,21 @@
       <tag name="console.command" command="server:start"/>
       <argument>/home/birame/Transfert-Argent-BackEnd/public</argument>
       <argument>dev</argument>
-      <argument>/home/birame/Transfert-Argent-BackEnd/var/cache</argument>
+      <argument>/home/birame/Transfert-Argent-BackEnd</argument>
       <call method="setName">
         <argument>server:start</argument>
       </call>
     </service>
     <service id="web_server.command.server_stop" class="Symfony\Bundle\WebServerBundle\Command\ServerStopCommand" public="false">
       <tag name="console.command" command="server:stop"/>
-      <argument>/home/birame/Transfert-Argent-BackEnd/var/cache</argument>
+      <argument>/home/birame/Transfert-Argent-BackEnd</argument>
       <call method="setName">
         <argument>server:stop</argument>
       </call>
     </service>
     <service id="web_server.command.server_status" class="Symfony\Bundle\WebServerBundle\Command\ServerStatusCommand" public="false">
       <tag name="console.command" command="server:status"/>
-      <argument>/home/birame/Transfert-Argent-BackEnd/var/cache</argument>
+      <argument>/home/birame/Transfert-Argent-BackEnd</argument>
       <call method="setName">
         <argument>server:status</argument>
       </call>
@@ -4888,20 +4896,13 @@
         <argument key="versementRepository" type="service" id="App\Repository\VersementRepository"/>
       </argument>
     </service>
-<<<<<<< HEAD
-    <service id=".service_locator.k4tmmzh" class="Symfony\Component\DependencyInjection\ServiceLocator" public="false">
-=======
-    <service id=".service_locator.jjTNa6M" class="Symfony\Component\DependencyInjection\ServiceLocator" public="false">
->>>>>>> db76476ffb05380ef49a4ed256b346dc90e875a6
+    <service id=".service_locator.bZemZkw" class="Symfony\Component\DependencyInjection\ServiceLocator" public="false">
       <tag name="container.service_locator"/>
       <argument type="collection">
         <argument key="App\Controller\PartenaireController::index" type="service" id=".service_locator.eIEYWuf"/>
         <argument key="App\Controller\PartenaireController::new" type="service" id=".service_locator.H3qnu8f"/>
-<<<<<<< HEAD
         <argument key="App\Controller\PartenaireController::update" type="service" id=".service_locator.fDbIXxi"/>
-=======
         <argument key="App\Controller\SecurityController::index" type="service" id=".service_locator.Eh5YPL1"/>
->>>>>>> db76476ffb05380ef49a4ed256b346dc90e875a6
         <argument key="App\Controller\SecurityController::register" type="service" id=".service_locator.lm3AYgL"/>
         <argument key="App\Controller\SecurityController::setViewHandler" type="service" id=".service_locator.l2alLEu"/>
         <argument key="App\Controller\SecurityController::status" type="service" id=".service_locator.wypGnUQ"/>
@@ -4909,11 +4910,8 @@
         <argument key="App\Controller\VersementController::setViewHandler" type="service" id=".service_locator.l2alLEu"/>
         <argument key="App\Controller\PartenaireController:index" type="service" id=".service_locator.eIEYWuf"/>
         <argument key="App\Controller\PartenaireController:new" type="service" id=".service_locator.H3qnu8f"/>
-<<<<<<< HEAD
         <argument key="App\Controller\PartenaireController:update" type="service" id=".service_locator.fDbIXxi"/>
-=======
         <argument key="App\Controller\SecurityController:index" type="service" id=".service_locator.Eh5YPL1"/>
->>>>>>> db76476ffb05380ef49a4ed256b346dc90e875a6
         <argument key="App\Controller\SecurityController:register" type="service" id=".service_locator.lm3AYgL"/>
         <argument key="App\Controller\SecurityController:setViewHandler" type="service" id=".service_locator.l2alLEu"/>
         <argument key="App\Controller\SecurityController:status" type="service" id=".service_locator.wypGnUQ"/>
@@ -5214,20 +5212,12 @@
       <argument type="service" id="security.token_storage"/>
     </service>
     <service id="debug.argument_resolver.service.inner" class="Symfony\Component\HttpKernel\Controller\ArgumentResolver\ServiceValueResolver" public="false">
-<<<<<<< HEAD
-      <argument type="service" id=".service_locator.k4tmmzh"/>
-=======
-      <argument type="service" id=".service_locator.jjTNa6M"/>
->>>>>>> db76476ffb05380ef49a4ed256b346dc90e875a6
+      <argument type="service" id=".service_locator.bZemZkw"/>
     </service>
     <service id="debug.argument_resolver.default.inner" class="Symfony\Component\HttpKernel\Controller\ArgumentResolver\DefaultValueResolver" public="false"/>
     <service id="debug.argument_resolver.variadic.inner" class="Symfony\Component\HttpKernel\Controller\ArgumentResolver\VariadicValueResolver" public="false"/>
     <service id="debug.argument_resolver.not_tagged_controller.inner" class="Symfony\Component\HttpKernel\Controller\ArgumentResolver\NotTaggedControllerValueResolver" public="false">
-<<<<<<< HEAD
-      <argument type="service" id=".service_locator.k4tmmzh"/>
-=======
-      <argument type="service" id=".service_locator.jjTNa6M"/>
->>>>>>> db76476ffb05380ef49a4ed256b346dc90e875a6
+      <argument type="service" id=".service_locator.bZemZkw"/>
     </service>
     <service id="api_platform.swagger.normalizer.api_gateway.inner" class="ApiPlatform\Core\Swagger\Serializer\DocumentationNormalizer" public="false">
       <argument type="service" id="api_platform.metadata.resource.metadata_factory.cached"/>
@@ -5264,11 +5254,8 @@
       <argument type="service" id="api_platform.metadata.property.metadata_factory.cached"/>
       <argument type="service" id="api_platform.path_segment_name_generator.underscore"/>
     </service>
-<<<<<<< HEAD
     <service id=".errored..service_locator.fDbIXxi.App\Entity\Partenaire" class="App\Entity\Partenaire"/>
-=======
     <service id=".errored..service_locator.wypGnUQ.App\Entity\User" class="App\Entity\User"/>
->>>>>>> db76476ffb05380ef49a4ed256b346dc90e875a6
     <service id="console.command_loader" class="Symfony\Component\Console\CommandLoader\ContainerCommandLoader" public="true">
       <argument type="service" id=".service_locator.A1Bx0QA"/>
       <argument type="collection">
@@ -5581,11 +5568,7 @@
     <service id="lexik_jwt_authentication.encoder" alias="lexik_jwt_authentication.encoder.lcobucci" public="true"/>
     <service id="Lexik\Bundle\JWTAuthenticationBundle\Encoder\JWTEncoderInterface" alias="lexik_jwt_authentication.encoder.lcobucci"/>
     <service id="lexik_jwt_authentication.key_loader" alias="lexik_jwt_authentication.key_loader.raw" public="true"/>
-<<<<<<< HEAD
-    <service id="argument_resolver.controller_locator" alias=".service_locator.k4tmmzh"/>
-=======
-    <service id="argument_resolver.controller_locator" alias=".service_locator.jjTNa6M"/>
->>>>>>> db76476ffb05380ef49a4ed256b346dc90e875a6
+    <service id="argument_resolver.controller_locator" alias=".service_locator.bZemZkw"/>
     <service id="twig.loader.filesystem" alias="twig.loader.native_filesystem" public="false"/>
     <service id="twig.loader" alias="twig.loader.native_filesystem"/>
     <service id="api_platform.name_converter" alias="serializer.name_converter.metadata_aware"/>
