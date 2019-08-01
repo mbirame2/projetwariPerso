@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use ApiPlatform\Core\Annotation\ApiResource;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ApiResource()
@@ -20,6 +21,10 @@ class Versement
 
     /**
      * @ORM\Column(type="bigint")
+     * @Assert\Positive
+     * @Assert\GreaterThan(
+     *     value = 75000
+     * )
      */
     private $montant;
 
@@ -38,6 +43,8 @@ class Versement
      * @ORM\Column(type="integer")
      */
     private $caissier;
+
+
 
     public function getId(): ?int
     {

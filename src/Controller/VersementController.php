@@ -17,7 +17,7 @@ use FOS\RestBundle\Controller\AbstractFOSRestController;
 
 /**
 * @Route("/api")
-* @Security("has_role('ROLE_Caissier')")
+*
 */
 class VersementController extends AbstractFOSRestController
 {
