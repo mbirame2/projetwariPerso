@@ -395,13 +395,6 @@
   </parameters>
   <services>
     <service id="service_container" class="Symfony\Component\DependencyInjection\ContainerInterface" public="true" synthetic="true"/>
-    <service id="App\Controller\PartenaireController" class="App\Controller\PartenaireController" public="true" autowire="true" autoconfigure="true">
-      <tag name="controller.service_arguments"/>
-      <tag name="container.service_subscriber"/>
-      <call method="setContainer">
-        <argument type="service" id=".service_locator.CDOTD6..App\Controller\PartenaireController"/>
-      </call>
-    </service>
     <service id="App\Controller\SecurityController" class="App\Controller\SecurityController" public="true" autowire="true" autoconfigure="true">
       <tag name="controller.service_arguments"/>
       <tag name="container.service_subscriber"/>
@@ -409,18 +402,15 @@
         <argument type="service" id=".service_locator.4RGsIK0.App\Controller\SecurityController"/>
       </call>
     </service>
-    <service id="App\Controller\VersementController" class="App\Controller\VersementController" public="true" autowire="true" autoconfigure="true">
-      <tag name="controller.service_arguments"/>
-      <tag name="container.service_subscriber"/>
-      <call method="setContainer">
-        <argument type="service" id=".service_locator.4RGsIK0.App\Controller\VersementController"/>
-      </call>
-    </service>
     <service id="App\Form\UserType" class="App\Form\UserType" autowire="true" autoconfigure="true">
       <tag name="form.type"/>
     </service>
     <service id="App\Form\VersementType" class="App\Form\VersementType" autowire="true" autoconfigure="true">
       <tag name="form.type"/>
+    </service>
+    <service id="App\Repository\CompteRepository" class="App\Repository\CompteRepository" autowire="true" autoconfigure="true">
+      <tag name="doctrine.repository_service"/>
+      <argument type="service" id="doctrine"/>
     </service>
     <service id="App\Repository\PartenaireRepository" class="App\Repository\PartenaireRepository" autowire="true" autoconfigure="true">
       <tag name="doctrine.repository_service"/>
@@ -2355,16 +2345,10 @@
     <service id="security.encoder_factory.generic" class="Symfony\Component\Security\Core\Encoder\EncoderFactory" public="false">
       <argument type="collection">
         <argument key="App\Entity\User" type="collection">
-          <argument key="algorithm">auto</argument>
-          <argument key="hash_algorithm">sha512</argument>
-          <argument key="key_length">40</argument>
-          <argument key="ignore_case">false</argument>
-          <argument key="encode_as_base64">true</argument>
-          <argument key="iterations">5000</argument>
-          <argument key="cost">null</argument>
-          <argument key="memory_cost">null</argument>
-          <argument key="time_cost">null</argument>
-          <argument key="threads">null</argument>
+          <argument key="class">Symfony\Component\Security\Core\Encoder\BCryptPasswordEncoder</argument>
+          <argument key="arguments" type="collection">
+            <argument>13</argument>
+          </argument>
         </argument>
       </argument>
     </service>
@@ -3218,7 +3202,7 @@
       <factory class="Doctrine\ORM\EntityManager" method="create"/>
     </service>
     <service id="doctrine.orm.container_repository_factory" class="Doctrine\Bundle\DoctrineBundle\Repository\ContainerRepositoryFactory" public="false">
-      <argument type="service" id=".service_locator.zDhrWJ8"/>
+      <argument type="service" id=".service_locator.aUrl8nj"/>
     </service>
     <service id="doctrine.orm.manager_configurator.abstract" class="Doctrine\Bundle\DoctrineBundle\ManagerConfigurator" abstract="true">
       <argument type="collection"/>
@@ -4659,19 +4643,15 @@
     <service id="lexik_jwt_authentication.security.jwt_user_provider" class="Lexik\Bundle\JWTAuthenticationBundle\Security\User\JWTUserProvider" public="false">
       <argument></argument>
     </service>
-    <service id=".instanceof.Symfony\Contracts\Service\ServiceSubscriberInterface.0.App\Controller\PartenaireController" class="App\Controller\PartenaireController" autowire="true" abstract="true"/>
-    <service id=".instanceof.Symfony\Bundle\FrameworkBundle\Controller\AbstractController.0.App\Controller\PartenaireController" class="App\Controller\PartenaireController" autowire="true" abstract="true"/>
-    <service id=".abstract.instanceof.App\Controller\PartenaireController" class="App\Controller\PartenaireController" autowire="true" autoconfigure="true" abstract="true"/>
     <service id=".instanceof.Symfony\Contracts\Service\ServiceSubscriberInterface.0.App\Controller\SecurityController" class="App\Controller\SecurityController" autowire="true" abstract="true"/>
     <service id=".instanceof.Symfony\Bundle\FrameworkBundle\Controller\AbstractController.0.App\Controller\SecurityController" class="App\Controller\SecurityController" autowire="true" abstract="true"/>
     <service id=".abstract.instanceof.App\Controller\SecurityController" class="App\Controller\SecurityController" autowire="true" autoconfigure="true" abstract="true"/>
-    <service id=".instanceof.Symfony\Contracts\Service\ServiceSubscriberInterface.0.App\Controller\VersementController" class="App\Controller\VersementController" autowire="true" abstract="true"/>
-    <service id=".instanceof.Symfony\Bundle\FrameworkBundle\Controller\AbstractController.0.App\Controller\VersementController" class="App\Controller\VersementController" autowire="true" abstract="true"/>
-    <service id=".abstract.instanceof.App\Controller\VersementController" class="App\Controller\VersementController" autowire="true" autoconfigure="true" abstract="true"/>
     <service id=".instanceof.Symfony\Component\Form\FormTypeInterface.0.App\Form\UserType" class="App\Form\UserType" autowire="true" abstract="true"/>
     <service id=".abstract.instanceof.App\Form\UserType" class="App\Form\UserType" autowire="true" autoconfigure="true" abstract="true"/>
     <service id=".instanceof.Symfony\Component\Form\FormTypeInterface.0.App\Form\VersementType" class="App\Form\VersementType" autowire="true" abstract="true"/>
     <service id=".abstract.instanceof.App\Form\VersementType" class="App\Form\VersementType" autowire="true" autoconfigure="true" abstract="true"/>
+    <service id=".instanceof.Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepositoryInterface.0.App\Repository\CompteRepository" class="App\Repository\CompteRepository" autowire="true" abstract="true"/>
+    <service id=".abstract.instanceof.App\Repository\CompteRepository" class="App\Repository\CompteRepository" autowire="true" autoconfigure="true" abstract="true"/>
     <service id=".instanceof.Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepositoryInterface.0.App\Repository\PartenaireRepository" class="App\Repository\PartenaireRepository" autowire="true" abstract="true"/>
     <service id=".abstract.instanceof.App\Repository\PartenaireRepository" class="App\Repository\PartenaireRepository" autowire="true" autoconfigure="true" abstract="true"/>
     <service id=".instanceof.Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepositoryInterface.0.App\Repository\UserRepository" class="App\Repository\UserRepository" autowire="true" abstract="true"/>
@@ -4840,31 +4820,6 @@
         <argument>make:migration</argument>
       </call>
     </service>
-    <service id=".service_locator.eIEYWuf" class="Symfony\Component\DependencyInjection\ServiceLocator" public="false">
-      <tag name="container.service_locator"/>
-      <argument type="collection">
-        <argument key="partenaireRepository" type="service" id="App\Repository\PartenaireRepository"/>
-        <argument key="serializer" type="service" id="serializer"/>
-      </argument>
-    </service>
-    <service id=".service_locator.H3qnu8f" class="Symfony\Component\DependencyInjection\ServiceLocator" public="false">
-      <tag name="container.service_locator"/>
-      <argument type="collection">
-        <argument key="entityManager" type="service" id="doctrine.orm.default_entity_manager"/>
-        <argument key="passwordEncoder" type="service" id="security.user_password_encoder.generic"/>
-        <argument key="serializer" type="service" id="serializer"/>
-        <argument key="validator" type="service" id="validator"/>
-      </argument>
-    </service>
-    <service id=".service_locator.fDbIXxi" class="Symfony\Component\DependencyInjection\ServiceLocator" public="false">
-      <tag name="container.service_locator"/>
-      <argument type="collection">
-        <argument key="entityManager" type="service" id="doctrine.orm.default_entity_manager"/>
-        <argument key="partenaire" type="service" id=".errored..service_locator.fDbIXxi.App\Entity\Partenaire"/>
-        <argument key="serializer" type="service" id="serializer"/>
-        <argument key="validator" type="service" id="validator"/>
-      </argument>
-    </service>
     <service id=".service_locator.lm3AYgL" class="Symfony\Component\DependencyInjection\ServiceLocator" public="false">
       <tag name="container.service_locator"/>
       <argument type="collection">
@@ -4889,34 +4844,17 @@
         <argument key="viewhandler" type="service" id="fos_rest.view_handler.default"/>
       </argument>
     </service>
-    <service id=".service_locator.e0UMJg." class="Symfony\Component\DependencyInjection\ServiceLocator" public="false">
+    <service id=".service_locator.34a4UNS" class="Symfony\Component\DependencyInjection\ServiceLocator" public="false">
       <tag name="container.service_locator"/>
       <argument type="collection">
-        <argument key="serializer" type="service" id="serializer"/>
-        <argument key="versementRepository" type="service" id="App\Repository\VersementRepository"/>
-      </argument>
-    </service>
-    <service id=".service_locator.bZemZkw" class="Symfony\Component\DependencyInjection\ServiceLocator" public="false">
-      <tag name="container.service_locator"/>
-      <argument type="collection">
-        <argument key="App\Controller\PartenaireController::index" type="service" id=".service_locator.eIEYWuf"/>
-        <argument key="App\Controller\PartenaireController::new" type="service" id=".service_locator.H3qnu8f"/>
-        <argument key="App\Controller\PartenaireController::update" type="service" id=".service_locator.fDbIXxi"/>
         <argument key="App\Controller\SecurityController::index" type="service" id=".service_locator.Eh5YPL1"/>
         <argument key="App\Controller\SecurityController::register" type="service" id=".service_locator.lm3AYgL"/>
         <argument key="App\Controller\SecurityController::setViewHandler" type="service" id=".service_locator.l2alLEu"/>
         <argument key="App\Controller\SecurityController::status" type="service" id=".service_locator.wypGnUQ"/>
-        <argument key="App\Controller\VersementController::index" type="service" id=".service_locator.e0UMJg."/>
-        <argument key="App\Controller\VersementController::setViewHandler" type="service" id=".service_locator.l2alLEu"/>
-        <argument key="App\Controller\PartenaireController:index" type="service" id=".service_locator.eIEYWuf"/>
-        <argument key="App\Controller\PartenaireController:new" type="service" id=".service_locator.H3qnu8f"/>
-        <argument key="App\Controller\PartenaireController:update" type="service" id=".service_locator.fDbIXxi"/>
         <argument key="App\Controller\SecurityController:index" type="service" id=".service_locator.Eh5YPL1"/>
         <argument key="App\Controller\SecurityController:register" type="service" id=".service_locator.lm3AYgL"/>
         <argument key="App\Controller\SecurityController:setViewHandler" type="service" id=".service_locator.l2alLEu"/>
         <argument key="App\Controller\SecurityController:status" type="service" id=".service_locator.wypGnUQ"/>
-        <argument key="App\Controller\VersementController:index" type="service" id=".service_locator.e0UMJg."/>
-        <argument key="App\Controller\VersementController:setViewHandler" type="service" id=".service_locator.l2alLEu"/>
       </argument>
     </service>
     <service id=".service_locator.LtnrEkg" class="Symfony\Component\DependencyInjection\ServiceLocator" public="false">
@@ -5010,9 +4948,10 @@
         <argument key="doctrine.orm.default_listeners.attach_entity_listeners" type="service" id="doctrine.orm.default_listeners.attach_entity_listeners"/>
       </argument>
     </service>
-    <service id=".service_locator.zDhrWJ8" class="Symfony\Component\DependencyInjection\ServiceLocator" public="false">
+    <service id=".service_locator.aUrl8nj" class="Symfony\Component\DependencyInjection\ServiceLocator" public="false">
       <tag name="container.service_locator"/>
       <argument type="collection">
+        <argument key="App\Repository\CompteRepository" type="service" id="App\Repository\CompteRepository"/>
         <argument key="App\Repository\PartenaireRepository" type="service" id="App\Repository\PartenaireRepository"/>
         <argument key="App\Repository\UserRepository" type="service" id="App\Repository\UserRepository"/>
         <argument key="App\Repository\VersementRepository" type="service" id="App\Repository\VersementRepository"/>
@@ -5055,29 +4994,6 @@
         <argument key="security.token_storage" type="service" id="security.token_storage"/>
       </argument>
     </service>
-    <service id=".service_locator.CDOTD6." class="Symfony\Component\DependencyInjection\ServiceLocator" public="false">
-      <tag name="container.service_locator"/>
-      <argument type="collection">
-        <argument key="doctrine" type="service" id="doctrine" on-invalid="ignore"/>
-        <argument key="form.factory" type="service" id="form.factory" on-invalid="ignore"/>
-        <argument key="http_kernel" type="service" id="http_kernel" on-invalid="ignore"/>
-        <argument key="parameter_bag" type="service" id="parameter_bag" on-invalid="ignore"/>
-        <argument key="request_stack" type="service" id="request_stack" on-invalid="ignore"/>
-        <argument key="router" type="service" id="router.default" on-invalid="ignore"/>
-        <argument key="security.authorization_checker" type="service" id="security.authorization_checker" on-invalid="ignore"/>
-        <argument key="security.csrf.token_manager" type="service" id="security.csrf.token_manager" on-invalid="ignore"/>
-        <argument key="security.token_storage" type="service" id="security.token_storage" on-invalid="ignore"/>
-        <argument key="serializer" type="service" id="serializer" on-invalid="ignore"/>
-        <argument key="session" type="service" id="session" on-invalid="ignore"/>
-        <argument key="twig" type="service" id="twig" on-invalid="ignore"/>
-      </argument>
-    </service>
-    <service id=".service_locator.CDOTD6..App\Controller\PartenaireController" class="Symfony\Component\DependencyInjection\ServiceLocator" public="false">
-      <tag name="container.service_locator_context" id="App\Controller\PartenaireController"/>
-      <argument>App\Controller\PartenaireController</argument>
-      <argument type="service" id="service_container"/>
-      <factory service=".service_locator.CDOTD6." method="withContext"/>
-    </service>
     <service id=".service_locator.4RGsIK0" class="Symfony\Component\DependencyInjection\ServiceLocator" public="false">
       <tag name="container.service_locator"/>
       <argument type="collection">
@@ -5099,12 +5015,6 @@
     <service id=".service_locator.4RGsIK0.App\Controller\SecurityController" class="Symfony\Component\DependencyInjection\ServiceLocator" public="false">
       <tag name="container.service_locator_context" id="App\Controller\SecurityController"/>
       <argument>App\Controller\SecurityController</argument>
-      <argument type="service" id="service_container"/>
-      <factory service=".service_locator.4RGsIK0" method="withContext"/>
-    </service>
-    <service id=".service_locator.4RGsIK0.App\Controller\VersementController" class="Symfony\Component\DependencyInjection\ServiceLocator" public="false">
-      <tag name="container.service_locator_context" id="App\Controller\VersementController"/>
-      <argument>App\Controller\VersementController</argument>
       <argument type="service" id="service_container"/>
       <factory service=".service_locator.4RGsIK0" method="withContext"/>
     </service>
@@ -5212,12 +5122,12 @@
       <argument type="service" id="security.token_storage"/>
     </service>
     <service id="debug.argument_resolver.service.inner" class="Symfony\Component\HttpKernel\Controller\ArgumentResolver\ServiceValueResolver" public="false">
-      <argument type="service" id=".service_locator.bZemZkw"/>
+      <argument type="service" id=".service_locator.34a4UNS"/>
     </service>
     <service id="debug.argument_resolver.default.inner" class="Symfony\Component\HttpKernel\Controller\ArgumentResolver\DefaultValueResolver" public="false"/>
     <service id="debug.argument_resolver.variadic.inner" class="Symfony\Component\HttpKernel\Controller\ArgumentResolver\VariadicValueResolver" public="false"/>
     <service id="debug.argument_resolver.not_tagged_controller.inner" class="Symfony\Component\HttpKernel\Controller\ArgumentResolver\NotTaggedControllerValueResolver" public="false">
-      <argument type="service" id=".service_locator.bZemZkw"/>
+      <argument type="service" id=".service_locator.34a4UNS"/>
     </service>
     <service id="api_platform.swagger.normalizer.api_gateway.inner" class="ApiPlatform\Core\Swagger\Serializer\DocumentationNormalizer" public="false">
       <argument type="service" id="api_platform.metadata.resource.metadata_factory.cached"/>
@@ -5254,7 +5164,6 @@
       <argument type="service" id="api_platform.metadata.property.metadata_factory.cached"/>
       <argument type="service" id="api_platform.path_segment_name_generator.underscore"/>
     </service>
-    <service id=".errored..service_locator.fDbIXxi.App\Entity\Partenaire" class="App\Entity\Partenaire"/>
     <service id=".errored..service_locator.wypGnUQ.App\Entity\User" class="App\Entity\User"/>
     <service id="console.command_loader" class="Symfony\Component\Console\CommandLoader\ContainerCommandLoader" public="true">
       <argument type="service" id=".service_locator.A1Bx0QA"/>
@@ -5568,7 +5477,7 @@
     <service id="lexik_jwt_authentication.encoder" alias="lexik_jwt_authentication.encoder.lcobucci" public="true"/>
     <service id="Lexik\Bundle\JWTAuthenticationBundle\Encoder\JWTEncoderInterface" alias="lexik_jwt_authentication.encoder.lcobucci"/>
     <service id="lexik_jwt_authentication.key_loader" alias="lexik_jwt_authentication.key_loader.raw" public="true"/>
-    <service id="argument_resolver.controller_locator" alias=".service_locator.bZemZkw"/>
+    <service id="argument_resolver.controller_locator" alias=".service_locator.34a4UNS"/>
     <service id="twig.loader.filesystem" alias="twig.loader.native_filesystem" public="false"/>
     <service id="twig.loader" alias="twig.loader.native_filesystem"/>
     <service id="api_platform.name_converter" alias="serializer.name_converter.metadata_aware"/>

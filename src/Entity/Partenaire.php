@@ -6,14 +6,10 @@ use ApiPlatform\Core\Annotation\ApiResource;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
-use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 /**
  * @ApiResource()
  * @ORM\Entity(repositoryClass="App\Repository\PartenaireRepository")
- * @UniqueEntity(fields={"ninea"}, message="le ninea doit etre unique")
- * @UniqueEntity(fields={"raisonSocial"}, message="la raison sociale doit etre unique")
- * @UniqueEntity(fields={"numeroCompte"}, message="le compte doit etre unique")
  */
 class Partenaire
 {
@@ -25,7 +21,7 @@ class Partenaire
     private $id;
 
     /**
-     * @ORM\Column(type="text")
+     * @ORM\Column(type="string", length=255)
      */
     private $raisonSocial;
 
@@ -40,23 +36,14 @@ class Partenaire
     private $adresse;
 
     /**
-     * @ORM\Column(type="bigint")
+     * @ORM\OneToMany(targetEntity="App\Entity\Compte", mappedBy="partenaire")
      */
-    private $numeroCompte;
+    private $compte;
 
-    /**
-     * @ORM\Column(type="bigint")
-     */
-    private $solde;
-
-    /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Versement", mappedBy="partenaire")
-     */
-    private $versements;
 
     public function __construct()
     {
-        $this->versements = new ArrayCollection();
+        $this->compte = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -69,9 +56,9 @@ class Partenaire
         return $this->raisonSocial;
     }
 
-    public function setRaisonSocial(string $Raison_social): self
+    public function setRaisonSocial(string $raisonSocial): self
     {
-        $this->raisonSocial = $Raison_social;
+        $this->raisonSocial = $raisonSocial;
 
         return $this;
     }
@@ -81,9 +68,9 @@ class Partenaire
         return $this->ninea;
     }
 
-    public function setNinea(int $Ninea): self
+    public function setNinea(int $ninea): self
     {
-        $this->ninea = $Ninea;
+        $this->ninea = $ninea;
 
         return $this;
     }
@@ -93,65 +80,42 @@ class Partenaire
         return $this->adresse;
     }
 
-    public function setAdresse(string $Adresse): self
+    public function setAdresse(string $adresse): self
     {
-        $this->adresse = $Adresse;
-
-        return $this;
-    }
-
-    public function getNumeroCompte(): ?int
-    {
-        return $this->numeroCompte;
-    }
-
-    public function setNumeroCompte(int $numeroCompte): self
-    {
-        $this->numeroCompte = $numeroCompte;
-
-        return $this;
-    }
-
-    public function getSolde(): ?int
-    {
-        return $this->solde;
-    }
-
-    public function setSolde(int $solde): self
-    {
-        $this->solde = $solde;
+        $this->adresse = $adresse;
 
         return $this;
     }
 
     /**
-     * @return Collection|Versement[]
+     * @return Collection|Compte[]
      */
-    public function getVersements(): Collection
+    public function getCompte(): Collection
     {
-        return $this->versements;
+        return $this->compte;
     }
 
-    public function addVersement(Versement $versement): self
+    public function addCompte(Compte $compte): self
     {
-        if (!$this->versements->contains($versement)) {
-            $this->versements[] = $versement;
-            $versement->setPartenaire($this);
+        if (!$this->compte->contains($compte)) {
+            $this->compte[] = $compte;
+            $compte->setPartenaire($this);
         }
 
         return $this;
     }
 
-    public function removeVersement(Versement $versement): self
+    public function removeCompte(Compte $compte): self
     {
-        if ($this->versements->contains($versement)) {
-            $this->versements->removeElement($versement);
+        if ($this->compte->contains($compte)) {
+            $this->compte->removeElement($compte);
             // set the owning side to null (unless already changed)
-            if ($versement->getPartenaire() === $this) {
-                $versement->setPartenaire(null);
+            if ($compte->getPartenaire() === $this) {
+                $compte->setPartenaire(null);
             }
         }
 
         return $this;
     }
+
 }

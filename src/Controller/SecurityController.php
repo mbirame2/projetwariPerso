@@ -47,7 +47,7 @@ class SecurityController extends AbstractFOSRestController
                 $user->setRoles(['ROLE_USER']);
                 $user->setProprietaire($connecte->getProprietaire());
             }
-            $user->setStatus('Bloquer');
+            $user->setStatus('Bloquer?');
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($user);
             $entityManager->flush();

@@ -2577,13 +2577,8 @@
     },
     {
         "name": "symfony/browser-kit",
-<<<<<<< HEAD
-        "version": "v4.3.2",
-        "version_normalized": "4.3.2.0",
-=======
         "version": "v4.3.3",
         "version_normalized": "4.3.3.0",
->>>>>>> db76476ffb05380ef49a4ed256b346dc90e875a6
         "source": {
             "type": "git",
             "url": "https://github.com/symfony/browser-kit.git",
@@ -2926,13 +2921,8 @@
     },
     {
         "name": "symfony/css-selector",
-<<<<<<< HEAD
-        "version": "v4.3.2",
-        "version_normalized": "4.3.2.0",
-=======
         "version": "v4.3.3",
         "version_normalized": "4.3.3.0",
->>>>>>> db76476ffb05380ef49a4ed256b346dc90e875a6
         "source": {
             "type": "git",
             "url": "https://github.com/symfony/css-selector.git",
@@ -2969,24 +2959,14 @@
         ],
         "authors": [
             {
-<<<<<<< HEAD
-                "name": "Jean-François Simon",
-                "email": "jeanfrancois.simon@sensiolabs.com"
-            },
-            {
-=======
->>>>>>> db76476ffb05380ef49a4ed256b346dc90e875a6
                 "name": "Fabien Potencier",
                 "email": "fabien@symfony.com"
             },
             {
-<<<<<<< HEAD
-=======
                 "name": "Jean-François Simon",
                 "email": "jeanfrancois.simon@sensiolabs.com"
             },
             {
->>>>>>> db76476ffb05380ef49a4ed256b346dc90e875a6
                 "name": "Symfony Community",
                 "homepage": "https://symfony.com/contributors"
             }
@@ -3221,13 +3201,8 @@
     },
     {
         "name": "symfony/dom-crawler",
-<<<<<<< HEAD
-        "version": "v4.3.2",
-        "version_normalized": "4.3.2.0",
-=======
         "version": "v4.3.3",
         "version_normalized": "4.3.3.0",
->>>>>>> db76476ffb05380ef49a4ed256b346dc90e875a6
         "source": {
             "type": "git",
             "url": "https://github.com/symfony/dom-crawler.git",

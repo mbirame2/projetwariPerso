@@ -4,7 +4,6 @@ namespace App\Entity;
 
 use ApiPlatform\Core\Annotation\ApiResource;
 use Doctrine\ORM\Mapping as ORM;
-use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ApiResource()
@@ -20,19 +19,9 @@ class Versement
     private $id;
 
     /**
-     * @ORM\Column(type="bigint")
-     * @Assert\Positive
-     * @Assert\GreaterThan(
-     *     value = 75000
-     * )
+     * @ORM\Column(type="integer")
      */
     private $montant;
-
-    /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Partenaire", inversedBy="versements")
-     * @ORM\JoinColumn(nullable=false)
-     */
-    private $partenaire;
 
     /**
      * @ORM\Column(type="datetime")
@@ -40,11 +29,14 @@ class Versement
     private $dateVersement;
 
     /**
-     * @ORM\Column(type="integer")
+     * @ORM\Column(type="string", length=255)
      */
     private $caissier;
 
-
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\Compte", inversedBy="versements")
+     */
+    private $compte;
 
     public function getId(): ?int
     {
@@ -63,18 +55,6 @@ class Versement
         return $this;
     }
 
-    public function getPartenaire(): ?Partenaire
-    {
-        return $this->partenaire;
-    }
-
-    public function setPartenaire(?Partenaire $partenaire): self
-    {
-        $this->partenaire = $partenaire;
-
-        return $this;
-    }
-
     public function getDateVersement(): ?\DateTimeInterface
     {
         return $this->dateVersement;
@@ -87,14 +67,27 @@ class Versement
         return $this;
     }
 
-    public function getCaissier(): ?int
+    public function getCaissier(): ?string
     {
         return $this->caissier;
     }
 
-    public function setCaissier(int $caissier): self
+    public function setCaissier(string $caissier): self
     {
         $this->caissier = $caissier;
+
+        return $this;
+    }
+
+
+    public function getCompte(): ?Compte
+    {
+        return $this->compte;
+    }
+
+    public function setCompte(?Compte $compte): self
+    {
+        $this->compte = $compte;
 
         return $this;
     }
