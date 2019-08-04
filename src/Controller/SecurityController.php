@@ -2,17 +2,21 @@
 
 namespace App\Controller;
 
-use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
-use Doctrine\ORM\EntityManagerInterface;
 use App\Entity\User;
-use Symfony\Component\HttpFoundation\JsonResponse;
+use App\Entity\Compte;
 use App\Form\UserType;
-use Symfony\Component\HttpFoundation\Response;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
+use App\Entity\Partenaire;
 use App\Repository\UserRepository;
+use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use FOS\RestBundle\Controller\AbstractFOSRestController;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
+use Symfony\Component\Security\Core\Exception\AccessDeniedException;
+use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
+
 
 /**
 * @Route("/api",name="_api")
@@ -20,48 +24,138 @@ use FOS\RestBundle\Controller\AbstractFOSRestController;
 class SecurityController extends AbstractFOSRestController
 {
     private $status="status";
+    private $actif="Actif";
+
     /**
-    * @Route("/register", name="app_register")
-    *@Security("has_role('ROLE_AdminWari') or has_role('ROLE_SuperAdminPartenaire')")
+    * @Route("/register/caissier", name="app_register")
+    *@Security("has_role('ROLE_AdminWari') ")
     */
-    public function register(Request $request, UserPasswordEncoderInterface $passwordEncoder): Response
-    {
-        $user = new User();
-        $form = $this->createForm(UserType::class, $user);
-        $form->handleRequest($request);
-        $data=json_decode($request->getContent(),true);
-        $form->submit($data);
-        if ($form->isSubmitted() && $form->isValid()) {
-            // encode the plain password
-            $user->setPassword(
-                $passwordEncoder->encodePassword(
-                    $user,
-                    $form->get('plainPassword')->getData()
-                )
-            );
-            $connecte = $this->getUser();
-            if($connecte->getRoles()[0]=='ROLE_AdminWari'){
-                $user->setRoles(['ROLE_Caissier']);
-                $user->setProprietaire('WARI');
-            }else{
-                $user->setRoles(['ROLE_USER']);
-                $user->setProprietaire($connecte->getProprietaire());
-            }
-            $user->setStatus('Bloquer?');
-            $entityManager = $this->getDoctrine()->getManager();
-            $entityManager->persist($user);
-            $entityManager->flush();
+  
+        public function ajoutCaissier(Request $request, EntityManagerInterface $entityManager)
+        {
+            $values = json_decode($request->getContent());      
+          
 
-            return $this->handleView($this->view([$this->status=>'ok'],Response::HTTP_CREATED));
+            $user = new User();
+                $user->setUsername($values->username);
+                $user->setRoles(["ROLE_Caissier"]);
+                $password = $this->encoder->encodePassword($user,$values->password);
+                $user->setPassword($password);
+                $user->setNomComplet($values->nomComplet);
+                $user->setStatus($this->actif);
+                $user->setProprietaire("AdminWari");
+             
+        
+                $entityManager = $this->getDoctrine()->getManager();
+              
+                $entityManager->persist($user);
+             
+                 // relates this partenaire to the compte    
+                $entityManager->flush(); 
+            
+                      
 
+        return new Response(
+            'Saved new user with caissier: '.$user->getNomComplet()
+           
+        );     
+           
+           
         }
+         /**
+    * @Route("/register/superadminwari", name="app_register")
+    *@Security("has_role('ROLE_Partenaire') ")
+    */
+  
+    public function superadminwari(Request $request, EntityManagerInterface $entityManager)
+    {
+        $values = json_decode($request->getContent());      
+      
 
-        return $this->handleView($this->view($form->getErrors()));
+        $user = new User();
+            $user->setUsername($values->username);
+            $user->setRoles(["ROLE_SuperAdminPartenaire"]);
+            $password = $this->encoder->encodePassword($user,$values->password);
+            $user->setPassword($password);
+            $user->setNomComplet($values->nomComplet);
+            $user->setStatus($this->actif);
+            $user->setProprietaire("AdminWari");
+         
+    
+            $entityManager = $this->getDoctrine()->getManager();
+          
+            $entityManager->persist($user);
+         
+             // relates this partenaire to the compte    
+            $entityManager->flush(); 
+        
+                  
+
+    return new Response(
+        'Saved new user with caissier: '.$user->getNomComplet()
+       
+    );     
     }
+
+         /**
+    * @Route("/register/userpartenaire", name="app_register")
+    *@Security("has_role('ROLE_Partenaire') ")
+    */
+  
+    public function userpartenaire(Request $request, EntityManagerInterface $entityManager,UserPasswordEncoderInterface $passwordEncoder)
+    {
+        $values = json_decode($request->getContent());      
+      
+
+        $user = new User();
+            $user->setUsername($values->username);
+            $user->setRoles(["ROLE_User"]);
+            $password = $passwordEncoder->encodePassword($user,$values->password);
+            $user->setPassword($password);
+            $user->setNomComplet($values->nomComplet);
+            $user->setStatus($this->actif);
+            $connecte = $this->getUser();
+            $user->setProprietaire($connecte->getUsername());
+         
+            $partenaire= $this->getDoctrine()->getRepository(Partenaire::class)->find($connecte->getPartenaire());
+                $user->setPartenaire($partenaire);
+    
+            $entityManager = $this->getDoctrine()->getManager();
+          
+            $cpt = new Compte();
+        $recup = substr($values->username,0,2);  
+        while (true) {
+            if (time() % 1 == 0) {
+                $alea = rand(100,200);
+                break;
+            }else {
+                slep(1);
+            }
+        }
+        $concat =$recup.$alea;
+        $cpt->setMontant(0);
+        $cpt->setNumeroCompte($concat);
+        $cpt->setPartenaire($partenaire);
+            $entityManager->persist($user);
+            $entityManager->persist($user);
+             // relates this partenaire to the compte    
+            $entityManager->flush(); 
+        
+                  
+
+    return new Response(
+        'Saved new user with partenaire: '.$user->getNomComplet()
+       
+    );     
+    }
+
+
+    
     /**
      * @Route("/users",name="users",methods={"GET"})
      * @Security("has_role('ROLE_AdminWari') or has_role('ROLE_SuperAdminPartenaire')")
      */
+
     public function index(UserRepository $repo)
     {
         $users=$repo->findAll();
@@ -73,20 +167,19 @@ class SecurityController extends AbstractFOSRestController
     public function login(Request $request)
     {
         $user = $this->getUser();
-        if($user->getStatus()=='Debloquer?'){
+        if($user->getStatus()==$this->actif){
             return $this->json([
                 'username' => $user->getUsername(),
                 'roles' => $user->getRoles()
             ]);
         }else{
-            $data = [
-                'status' => 401,
-                'message' => 'compte bloqué'
-            ];
-            return new JsonResponse($data, 401);
+            throw new AccessDeniedException();
+           
         }
         
+    
     }
+  
     /**
     * @Route("/logout", name="app_logout", methods={"GET"})
     */
@@ -94,15 +187,17 @@ class SecurityController extends AbstractFOSRestController
     {
     }
     /**
-    * @Route("/user/status/{id}", name="status",methods={"PUT"})
+    * @Route("/user/bloquer_user/{id}", name="status",methods={"PUT"})
     *@Security("has_role('ROLE_AdminWari') or has_role('ROLE_SuperAdminPartenaire')")
     */
     public function status(User $user)
     {
-        if($user->getStatus()=='Débloquer?'){
-            $user->setStatus('Bloquer?');
+        if($user->getStatus()=='Inactif'){
+            $user->setStatus($this->actif);
+           
         }else{
-            $user->setStatus('Débloquer?');
+            $user->setStatus('Inactif');
+          
         }
         $entityManager = $this->getDoctrine()->getManager();
         $entityManager->persist($user);

@@ -21,7 +21,7 @@ class Compte
     private $id;
 
     /**
-     * @ORM\Column(type="integer")
+     * @ORM\Column(type="string")
      */
     private $numeroCompte;
 
@@ -30,16 +30,17 @@ class Compte
      */
     private $montant;
 
-    /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Partenaire", inversedBy="compte")
-     * @ORM\JoinColumn(nullable=false)
-     */
-    private $partenaire;
+   
 
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\Versement", mappedBy="compte")
      */
     private $versements;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\Partenaire", inversedBy="compte")
+     */
+    private $partenaire;
 
     public function __construct()
     {
@@ -51,12 +52,12 @@ class Compte
         return $this->id;
     }
 
-    public function getNumeroCompte(): ?int
+    public function getNumeroCompte(): ?string
     {
         return $this->numeroCompte;
     }
 
-    public function setNumeroCompte(int $numeroCompte): self
+    public function setNumeroCompte(string $numeroCompte): self
     {
         $this->numeroCompte = $numeroCompte;
 
@@ -75,17 +76,7 @@ class Compte
         return $this;
     }
 
-    public function getPartenaire(): ?Partenaire
-    {
-        return $this->partenaire;
-    }
-
-    public function setPartenaire(?Partenaire $partenaire): self
-    {
-        $this->partenaire = $partenaire;
-
-        return $this;
-    }
+   
 
     /**
      * @return Collection|Versement[]
@@ -114,6 +105,18 @@ class Compte
                 $versement->setCompte(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getPartenaire(): ?Partenaire
+    {
+        return $this->partenaire;
+    }
+
+    public function setPartenaire(?Partenaire $partenaire): self
+    {
+        $this->partenaire = $partenaire;
 
         return $this;
     }
