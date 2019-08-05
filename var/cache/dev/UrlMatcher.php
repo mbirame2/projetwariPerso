@@ -13,7 +13,7 @@ return [
         '/api/register/caissier' => [[['_route' => '_apiap', '_controller' => 'App\\Controller\\SecurityController::ajoutCaissier'], null, ['POST' => 0], null, false, false, null]],
         '/api/register/superadminwari' => [[['_route' => '_apiapp_reg', '_controller' => 'App\\Controller\\SecurityController::superadminwari'], null, ['POST' => 0], null, false, false, null]],
         '/api/register/userpartenaire' => [[['_route' => '_apiapp_re', '_controller' => 'App\\Controller\\SecurityController::userpartenaire'], null, ['POST' => 0], null, false, false, null]],
-        '/api/users' => [[['_route' => '_apiusers', '_controller' => 'App\\Controller\\SecurityController::index'], null, ['GET' => 0], null, false, false, null]],
+        '/api/login' => [[['_route' => '_apitoken', '_controller' => 'App\\Controller\\SecurityController::index'], null, ['POST' => 0], null, false, false, null]],
         '/api/logout' => [[['_route' => '_apiapp_logout', '_controller' => 'App\\Controller\\SecurityController::logout'], null, ['GET' => 0], null, false, false, null]],
         '/api/versement' => [[['_route' => 'list_des_versements', '_controller' => 'App\\Controller\\VersementController::index'], null, ['GET' => 0], null, false, false, null]],
         '/api/ajout_versement' => [[['_route' => 'ajout_versement', '_controller' => 'App\\Controller\\VersementController::ajout'], null, ['POST' => 0], null, false, false, null]],

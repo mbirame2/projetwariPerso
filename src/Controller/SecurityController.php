@@ -15,8 +15,8 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use FOS\RestBundle\Controller\AbstractFOSRestController;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
+use Lexik\Bundle\JWTAuthenticationBundle\Encoder\JWTEncoderInterface;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
-
 
 /**
 * @Route("/api",name="_api")
@@ -25,6 +25,7 @@ class SecurityController extends AbstractFOSRestController
 {
     private $status="status";
     private $actif="Actif";
+    private $inactif="Inactif";
 
     /**
     * @Route("/register/caissier", name="ap",methods={"POST"})
@@ -152,15 +153,42 @@ class SecurityController extends AbstractFOSRestController
 
 
     
-    /**
-     * @Route("/users",name="users",methods={"GET"})
-     * @Security("has_role('ROLE_AdminWari') or has_role('ROLE_SuperAdminPartenaire')")
+     /**
+     * @Route("/login", name="token", methods={"POST"})
+     * @param Request $request
+     * @param JWTEncoderInterface $JWTEncoder
+     * @return JsonResponse
+     * @throws \Lexik\Bundle\JWTAuthenticationBundle\Exception\JWTEncodeFailureException
      */
 
-    public function index(UserRepository $repo)
+    public function index(UserRepository $repo ,Request $request, UserPasswordEncoderInterface $passwordEncoder, JWTEncoderInterface $JWTEncoder)
     {
-        $users=$repo->findAll();
-        return $this->handleView($this->view($users));
+       
+        $values = json_decode($request->getContent()); 
+       $username=$values->username;
+       $password=$values->password;
+
+        $partenaire= $this->getDoctrine()->getRepository(User::class)->findOneBy(['username'=>$username]);
+        if (!$partenaire) {
+            throw $this->createNotFoundException('User Not Found');
+        }
+        $isValid =  $passwordEncoder->isPasswordValid($partenaire, $password);
+     
+            if (!$isValid) {
+                return new Response('Le mot de passe saisi est incorrecte');
+            }
+           if($partenaire->getStatus()==$this->inactif){
+            return new Response('Accés refusé vous étes bloqués');
+           }else{
+
+            $token = $JWTEncoder->encode([
+                'username' => $password,
+                'exp' => time() + 3600 // 1 hour expiration
+            ]);
+
+        return new JsonResponse(['token' => $token]);
+
+           }
     }
   
     /**
@@ -175,11 +203,11 @@ class SecurityController extends AbstractFOSRestController
     */
     public function status(User $user)
     {
-        if($user->getStatus()=='Inactif'){
+        if($user->getStatus()==$this->inactif){
             $user->setStatus($this->actif);
            
         }else{
-            $user->setStatus('Inactif');
+            $user->setStatus($this->actif);
           
         }
         $entityManager = $this->getDoctrine()->getManager();

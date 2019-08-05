@@ -10,7 +10,7 @@ return [
     '_apiap' => [[], ['_controller' => 'App\\Controller\\SecurityController::ajoutCaissier'], [], [['text', '/api/register/caissier']], [], []],
     '_apiapp_reg' => [[], ['_controller' => 'App\\Controller\\SecurityController::superadminwari'], [], [['text', '/api/register/superadminwari']], [], []],
     '_apiapp_re' => [[], ['_controller' => 'App\\Controller\\SecurityController::userpartenaire'], [], [['text', '/api/register/userpartenaire']], [], []],
-    '_apiusers' => [[], ['_controller' => 'App\\Controller\\SecurityController::index'], [], [['text', '/api/users']], [], []],
+    '_apitoken' => [[], ['_controller' => 'App\\Controller\\SecurityController::index'], [], [['text', '/api/login']], [], []],
     '_apiapp_logout' => [[], ['_controller' => 'App\\Controller\\SecurityController::logout'], [], [['text', '/api/logout']], [], []],
     '_apistatus' => [['id'], ['_controller' => 'App\\Controller\\SecurityController::status'], [], [['variable', '/', '[^/]++', 'id', true], ['text', '/api/user/bloquer_user']], [], []],
     'list_des_versements' => [[], ['_controller' => 'App\\Controller\\VersementController::index'], [], [['text', '/api/versement']], [], []],
