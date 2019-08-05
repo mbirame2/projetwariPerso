@@ -4,6 +4,8 @@ namespace App\Entity;
 
 use ApiPlatform\Core\Annotation\ApiResource;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Mapping\ClassMetadata;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ApiResource()
@@ -20,6 +22,7 @@ class Versement
 
     /**
      * @ORM\Column(type="integer")
+     * @Assert\GreaterThan(75000)
      */
     private $montant;
 
@@ -90,5 +93,12 @@ class Versement
         $this->compte = $compte;
 
         return $this;
+    }
+
+    public static function loadValidatorMetadata(ClassMetadata $metadata)
+    {
+        $metadata->addPropertyConstraint('montant', new Assert\GreaterThan(75000));
+
+       
     }
 }

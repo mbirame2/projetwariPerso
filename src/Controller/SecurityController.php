@@ -27,19 +27,20 @@ class SecurityController extends AbstractFOSRestController
     private $actif="Actif";
 
     /**
-    * @Route("/register/caissier", name="app_register")
+    * @Route("/register/caissier", name="ap",methods={"POST"})
     *@Security("has_role('ROLE_AdminWari') ")
     */
   
-        public function ajoutCaissier(Request $request, EntityManagerInterface $entityManager)
+        public function ajoutCaissier(Request $request, EntityManagerInterface $entityManager ,UserPasswordEncoderInterface $passwordEncoder)
         {
+         
             $values = json_decode($request->getContent());      
           
 
             $user = new User();
                 $user->setUsername($values->username);
                 $user->setRoles(["ROLE_Caissier"]);
-                $password = $this->encoder->encodePassword($user,$values->password);
+                $password = $passwordEncoder->encodePassword($user,$values->password);
                 $user->setPassword($password);
                 $user->setNomComplet($values->nomComplet);
                 $user->setStatus($this->actif);
@@ -63,11 +64,11 @@ class SecurityController extends AbstractFOSRestController
            
         }
          /**
-    * @Route("/register/superadminwari", name="app_register")
+    * @Route("/register/superadminwari", name="app_reg" ,methods={"POST"})
     *@Security("has_role('ROLE_Partenaire') ")
     */
   
-    public function superadminwari(Request $request, EntityManagerInterface $entityManager)
+    public function superadminwari(Request $request, EntityManagerInterface $entityManager ,UserPasswordEncoderInterface $passwordEncoder)
     {
         $values = json_decode($request->getContent());      
       
@@ -75,7 +76,7 @@ class SecurityController extends AbstractFOSRestController
         $user = new User();
             $user->setUsername($values->username);
             $user->setRoles(["ROLE_SuperAdminPartenaire"]);
-            $password = $this->encoder->encodePassword($user,$values->password);
+            $password = $passwordEncoder->encodePassword($user,$values->password);
             $user->setPassword($password);
             $user->setNomComplet($values->nomComplet);
             $user->setStatus($this->actif);
@@ -92,13 +93,13 @@ class SecurityController extends AbstractFOSRestController
                   
 
     return new Response(
-        'Saved new user with caissier: '.$user->getNomComplet()
+        'Saved new user with AdminWari: '.$user->getNomComplet()
        
     );     
     }
 
          /**
-    * @Route("/register/userpartenaire", name="app_register")
+    * @Route("/register/userpartenaire", name="app_re",methods={"POST"})
     *@Security("has_role('ROLE_Partenaire') ")
     */
   
@@ -160,24 +161,6 @@ class SecurityController extends AbstractFOSRestController
     {
         $users=$repo->findAll();
         return $this->handleView($this->view($users));
-    }
-    /**
-    * @Route("/login", name="login", methods={"POST"})
-    */
-    public function login(Request $request)
-    {
-        $user = $this->getUser();
-        if($user->getStatus()==$this->actif){
-            return $this->json([
-                'username' => $user->getUsername(),
-                'roles' => $user->getRoles()
-            ]);
-        }else{
-            throw new AccessDeniedException();
-           
-        }
-        
-    
     }
   
     /**

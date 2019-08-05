@@ -14,6 +14,7 @@ use App\Form\VersementType;
 use Symfony\Component\HttpFoundation\Response;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use FOS\RestBundle\Controller\AbstractFOSRestController;
+use App\Entity\Compte;
 
 /**
 * @Route("/api")
@@ -36,31 +37,46 @@ class VersementController extends AbstractFOSRestController
 
    /**
      *@Route("/ajout_versement", name="ajout_versement", methods={"POST"})
+     *@Security("has_role('ROLE_Caissier') ")
      */
     public function ajout(Request $request)
     {
+       
+        $values = json_decode($request->getContent());      
+        $connecte = $this->getUser()->getNomComplet();
+
+            if($values->montant > 75000){
         $versement = new Versement();
-        $form=$this->createForm(VersementType::class,$versement);
-        $data=json_decode($request->getContent(),true);
-        $form->submit($data);
+       
+            $versement->setMontant($values->montant);
+          
+            $versement->setCaissier($connecte);
+
+         
+            $compte= $this->getDoctrine()->getRepository(Compte::class)->findOneBy(['numeroCompte' => $values->numeroCompte ]);
+   
+                $versement->setCompte($compte);
+                $versement->setDateVersement(new \Datetime());
+                $em=$this->getDoctrine()->getManager();
+                $em->persist($versement);
+              
+                $partenaire=$versement->getCompte();
+                $solde=$partenaire->getMontant()+$values->montant;
+                $partenaire->setMontant($solde);
+                
+                $em->persist($partenaire);
+                $em->flush();
         
-        if($form->isSubmitted() && $form->isValid()){
-            var_dump($versement);
-            $versement->setDateVersement(new \Datetime());
-            $connecte = $this->getUser();
-            $versement->setCaissier($connecte->getId());
-            $em=$this->getDoctrine()->getManager();
-            $em->persist($versement);
-            $em->flush();
-            $partenaire=$versement->getCompte();
-            $solde=$partenaire->getMontant()+$versement->getMontant();
-            $partenaire->setMontant($solde);
-            
-            $em->persist($partenaire);
-            $em->flush();
-            return $this->handleView($this->view(['status'=>'ok'],Response::HTTP_CREATED));
-        }
-        return $this->handleView($this->view($form->getErrors()));
-        
+                return new Response(
+                    'Versement bien enregistré '
+                   
+                );   
+             }elseif($values->montant < 75000){
+
+                return new Response(
+                    'Veillez saisir un montant superieur à 75 000'
+                   
+                ); 
+             }
     }
 }
