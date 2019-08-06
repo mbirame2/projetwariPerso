@@ -27,6 +27,25 @@ class SecurityController extends AbstractFOSRestController
     private $actif="Actif";
     private $inactif="Inactif";
 
+
+     function codage($test){
+         $retour=0;
+         $taille=strlen($test);
+         for($i=0 ; $i<$taille;$i++){
+             if(ord($test[$i])==32){
+                 $retour=1;
+             }else{
+                 $retour=0; break;
+             }
+
+         }
+         if($retour==0){
+            return new Response ('bien');
+         }
+         if($retour==1){
+             return  new Response ('mauvais') ;
+         }
+     }
     /**
     * @Route("/register/caissier", name="ap",methods={"POST"})
     *@Security("has_role('ROLE_AdminWari') ")
@@ -65,7 +84,7 @@ class SecurityController extends AbstractFOSRestController
            
         }
          /**
-    * @Route("/register/superadminwari", name="app_reg" ,methods={"POST"})
+    * @Route("/register/superadminpartenaire", name="app_reg" ,methods={"POST"})
     *@Security("has_role('ROLE_Partenaire') ")
     */
   
@@ -107,7 +126,8 @@ class SecurityController extends AbstractFOSRestController
     public function userpartenaire(Request $request, EntityManagerInterface $entityManager,UserPasswordEncoderInterface $passwordEncoder)
     {
         $values = json_decode($request->getContent());      
-      
+        $a=$this->codage($values->password);
+            $b=$this->codage($values->nomComplet);
 
         $user = new User();
             $user->setUsername($values->username);
@@ -207,7 +227,7 @@ class SecurityController extends AbstractFOSRestController
             $user->setStatus($this->actif);
            
         }else{
-            $user->setStatus($this->actif);
+            $user->setStatus($this->inactif);
           
         }
         $entityManager = $this->getDoctrine()->getManager();

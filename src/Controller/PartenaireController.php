@@ -41,7 +41,8 @@ class PartenaireController extends AbstractController
     /**
      * @Route("/ajout_partenaire", name="ajout_partenaire", methods={"POST"})
      */
-    public function new(Request $request, SerializerInterface $serializer, EntityManagerInterface $entityManager, ValidatorInterface $validator, UserPasswordEncoderInterface $passwordEncoder){
+    public function new(Request $request, SerializerInterface $serializer, EntityManagerInterface $entityManager,  UserPasswordEncoderInterface $passwordEncoder){
+
         $values = json_decode($request->getContent());      
         $partenaire = new Partenaire();
             $partenaire->setRaisonSocial($values->raisonSocial);
