@@ -64,7 +64,7 @@ class VersementController extends AbstractFOSRestController
                 $solde=$partenaire->getMontant()+$values->montant;
                 $partenaire->setMontant($solde);
                 
-                $em->persist($partenaire);
+                $em->persist($versement);
                 $em->flush();
         
                 return new Response(

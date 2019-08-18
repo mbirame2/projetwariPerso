@@ -113,6 +113,9 @@
     "doctrine/reflection": {
         "version": "v1.0.0"
     },
+    "dompdf/dompdf": {
+        "version": "v0.8.3"
+    },
     "fig/link-util": {
         "version": "1.0.0"
     },
@@ -182,6 +185,12 @@
     "phar-io/version": {
         "version": "1.0.1"
     },
+    "phenx/php-font-lib": {
+        "version": "0.5.1"
+    },
+    "phenx/php-svg-lib": {
+        "version": "v0.3.2"
+    },
     "phpdocumentor/reflection-common": {
         "version": "1.0.1"
     },
@@ -238,6 +247,9 @@
     },
     "psr/log": {
         "version": "1.1.0"
+    },
+    "sabberworm/php-css-parser": {
+        "version": "8.1.0"
     },
     "sebastian/code-unit-reverse-lookup": {
         "version": "1.0.1"

@@ -2,6 +2,8 @@
 
 namespace App\Controller;
 
+use Dompdf\Dompdf;
+use Dompdf\Options;
 use App\Entity\User;
 use App\Entity\Compte;
 use App\Form\UserType;
@@ -11,6 +13,7 @@ use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use FOS\RestBundle\Controller\FOSRestController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use FOS\RestBundle\Controller\AbstractFOSRestController;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
@@ -21,31 +24,14 @@ use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 /**
 * @Route("/api",name="_api")
 */
-class SecurityController extends AbstractFOSRestController
+class SecurityController extends FOSRestController
 {
     private $status="status";
     private $actif="Actif";
     private $inactif="Inactif";
+    private $image="imageFile";
 
-
-     function codage($test){
-         $retour=0;
-         $taille=strlen($test);
-         for($i=0 ; $i<$taille;$i++){
-             if(ord($test[$i])==32){
-                 $retour=1;
-             }else{
-                 $retour=0; break;
-             }
-
-         }
-         if($retour==0){
-            return new Response ('bien');
-         }
-         if($retour==1){
-             return  new Response ('mauvais') ;
-         }
-     }
+  
     /**
     * @Route("/register/caissier", name="ap",methods={"POST"})
     *@Security("has_role('ROLE_AdminWari') ")
@@ -54,30 +40,29 @@ class SecurityController extends AbstractFOSRestController
         public function ajoutCaissier(Request $request, EntityManagerInterface $entityManager ,UserPasswordEncoderInterface $passwordEncoder)
         {
          
-            $values = json_decode($request->getContent());      
-          
-
-            $user = new User();
-                $user->setUsername($values->username);
-                $user->setRoles(["ROLE_Caissier"]);
-                $password = $passwordEncoder->encodePassword($user,$values->password);
-                $user->setPassword($password);
-                $user->setNomComplet($values->nomComplet);
-                $user->setStatus($this->actif);
-                $user->setProprietaire("AdminWari");
-             
-        
+            $utilisateur = new User();
+            $form=$this->createForm(UserType::class , $utilisateur);
+            $form->handleRequest($request);
+            $data=$request->request->all();
+            $file= $request->files->all()[$this->image];
                 $entityManager = $this->getDoctrine()->getManager();
-              
-                $entityManager->persist($user);
-             
-                 // relates this partenaire to the compte    
-                $entityManager->flush(); 
+             $form->submit($data);
+            $utilisateur->setRoles(["ROLE_Caissier"]);
+            $utilisateur->setStatus($this->actif);
+            $utilisateur->setProprietaire('AdminWari');
+            $utilisateur->setImageFile($file);
+            $utilisateur->setPassword($passwordEncoder->encodePassword($utilisateur,
+            $form->get('password')->getData() ) 
+                );
+            $entityManager = $this->getDoctrine()->getManager();
+       
+            $entityManager->persist($utilisateur);
+            $entityManager->flush();
             
                       
 
         return new Response(
-            'Saved new user with caissier: '.$user->getNomComplet()
+            'Saved new user with caissier: '.$utilisateur->getNomComplet()
            
         );     
            
@@ -90,30 +75,30 @@ class SecurityController extends AbstractFOSRestController
   
     public function superadminwari(Request $request, EntityManagerInterface $entityManager ,UserPasswordEncoderInterface $passwordEncoder)
     {
-        $values = json_decode($request->getContent());      
       
-
-        $user = new User();
-            $user->setUsername($values->username);
-            $user->setRoles(["ROLE_SuperAdminPartenaire"]);
-            $password = $passwordEncoder->encodePassword($user,$values->password);
-            $user->setPassword($password);
-            $user->setNomComplet($values->nomComplet);
-            $user->setStatus($this->actif);
-            $user->setProprietaire("AdminWari");
-         
-    
+        $utilisateur = new User();
+        $form=$this->createForm(UserType::class , $utilisateur);
+        $form->handleRequest($request);
+        $data=$request->request->all();
+        $file= $request->files->all()[$this->image];
             $entityManager = $this->getDoctrine()->getManager();
-          
-            $entityManager->persist($user);
+         $form->submit($data);
+        $utilisateur->setRoles(["ROLE_SuperAdminWari"]);
+        $utilisateur->setStatus($this->actif);
+        $utilisateur->setProprietaire('Partenaire');
+        $utilisateur->setImageFile($file);
+        $utilisateur->setPassword($passwordEncoder->encodePassword($utilisateur,
+        $form->get('password')->getData() ) 
+            );
+        $entityManager = $this->getDoctrine()->getManager();
+   
+        $entityManager->persist($utilisateur);
+        $entityManager->flush();
          
-             // relates this partenaire to the compte    
-            $entityManager->flush(); 
-        
                   
 
     return new Response(
-        'Saved new user with AdminWari: '.$user->getNomComplet()
+        'Saved new user with AdminWari: '.$utilisateur->getNomComplet()
        
     );     
     }
@@ -125,32 +110,36 @@ class SecurityController extends AbstractFOSRestController
   
     public function userpartenaire(Request $request, EntityManagerInterface $entityManager,UserPasswordEncoderInterface $passwordEncoder)
     {
-        $values = json_decode($request->getContent());      
-        $a=$this->codage($values->password);
-            $b=$this->codage($values->nomComplet);
 
-        $user = new User();
-            $user->setUsername($values->username);
-            $user->setRoles(["ROLE_User"]);
-            $password = $passwordEncoder->encodePassword($user,$values->password);
-            $user->setPassword($password);
-            $user->setNomComplet($values->nomComplet);
-            $user->setStatus($this->actif);
+
+        $utilisateur = new User();
+        $form=$this->createForm(UserType::class , $utilisateur);
+        $form->handleRequest($request);
+        $data=$request->request->all();
+       $file= $request->files->all()[$this->image];
+           $entityManager = $this->getDoctrine()->getManager();
+        $form->submit($data);
+        $utilisateur->setPassword($passwordEncoder->encodePassword($utilisateur,
+        $form->get('password')->getData() ) 
+            );
+            $utilisateur->setRoles(["ROLE_User"]);
+            $utilisateur->setStatus('Actif');
+            $utilisateur->setProprietaire('AdminWari');
+            $utilisateur->setImageFile($file);
             $connecte = $this->getUser();
-            $user->setProprietaire($connecte->getUsername());
-         
-            $partenaire= $this->getDoctrine()->getRepository(Partenaire::class)->find($connecte->getPartenaire());
-                $user->setPartenaire($partenaire);
-    
-            $entityManager = $this->getDoctrine()->getManager();
-          
-            $cpt = new Compte();
-        $recup = substr($values->username,0,2);  
+             $partenaire= $this->getDoctrine()->getRepository(Partenaire::class)->find($connecte->getPartenaire());
+                $utilisateur->setPartenaire($partenaire);
+                $entityManager = $this->getDoctrine()->getManager();
+        $entityManager->persist($utilisateur);
+        $entityManager->flush();
+
+        $cpt = new Compte();
+        $recup = substr($utilisateur->getNomComplet(),0,2);  
         while (true) {
             if (time() % 1 == 0) {
                 $alea = rand(100,200);
                 break;
-            }else {
+            }else {     
                 slep(1);
             }
         }
@@ -158,15 +147,15 @@ class SecurityController extends AbstractFOSRestController
         $cpt->setMontant(0);
         $cpt->setNumeroCompte($concat);
         $cpt->setPartenaire($partenaire);
-            $entityManager->persist($user);
-            $entityManager->persist($user);
+            $entityManager->persist($utilisateur);
+            $entityManager->persist($cpt);
              // relates this partenaire to the compte    
             $entityManager->flush(); 
         
                   
 
     return new Response(
-        'Saved new user with partenaire: '.$user->getNomComplet()
+        'Saved new user with partenaire: '.$utilisateur->getNomComplet()
        
     );     
     }
@@ -199,16 +188,14 @@ class SecurityController extends AbstractFOSRestController
             }
            if($partenaire->getStatus()==$this->inactif){
             return new Response('Accés refusé vous étes bloqués');
-           }else{
-
-            $token = $JWTEncoder->encode([
-                'username' => $password,
-                'exp' => time() + 3600 // 1 hour expiration
-            ]);
-
-        return new JsonResponse(['token' => $token]);
-
            }
+           $token = $JWTEncoder->encode([
+            'username' => $password,
+            'exp' => time() + 3600 // 1 hour expiration
+        ]);
+
+    return new JsonResponse(['token' => $token]);
+
     }
   
     /**
@@ -219,7 +206,7 @@ class SecurityController extends AbstractFOSRestController
     }
     /**
     * @Route("/user/bloquer_user/{id}", name="status",methods={"PUT"})
-    *@Security("has_role('ROLE_AdminWari') or has_role('ROLE_SuperAdminPartenaire')")
+    *@Security("has_role('ROLE_Partenaire') ")
     */
     public function status(User $user)
     {
@@ -234,5 +221,17 @@ class SecurityController extends AbstractFOSRestController
         $entityManager->persist($user);
         $entityManager->flush();
         return $this->handleView($this->view([$this->status=>'ok'],Response::HTTP_CREATED));
+    }
+     /**
+    * @Route("/contrat", name="contrat",methods={"GET"})
+    *@Security("has_role('ROLE_AdminWari') ")
+    */
+    public function stat()
+    {
+
+      
+        
+        
+       // return $this->render('ooreka-contrat-de-prestation-de-service-converti.pdf');
     }
 }

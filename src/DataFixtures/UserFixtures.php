@@ -22,7 +22,8 @@ class UserFixtures extends Fixture
             ->setNomComplet("Birame MBOUP");
             $passwordEncoder= $this->passwordEncoder->encodePassword($supad, 'adminWari');
             $supad->setPassword($passwordEncoder)
-            ->setProprietaire("WARI")
+            ->setImageName("null");
+            $supad->setProprietaire("WARI")
             ->setStatus("Null")
             ->setRoles(['ROLE_AdminWari']);
         $manager->persist($supad);

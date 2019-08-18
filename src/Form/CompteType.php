@@ -2,30 +2,31 @@
 
 namespace App\Form;
 
-use App\Entity\Versement;
+use App\Entity\Compte;
 use App\Entity\Partenaire;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use Symfony\Component\Form\Extension\Core\Type\SubmitType;
-use App\Entity\Compte;
 
-class VersementType extends AbstractType
+class CompteType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-        ->add('montant')
-            ->add('compte')
-           
-            ->add('ajouter', SubmitType::class);
+            ->add('numeroCompte')
+            ->add('montant')
+            ->add('partenaire', EntityType::class,[
+                'class'=> Partenaire::class,
+                'choice_label'=> 'partenaire_id'
+            ])
+        ;
     }
 
     public function configureOptions(OptionsResolver $resolver)
     {
-        $resolver->setDefaults(array(
-            'csrf_protection' => false,
-        ));
+        $resolver->setDefaults([
+            'data_class' => Compte::class,
+        ]);
     }
 }

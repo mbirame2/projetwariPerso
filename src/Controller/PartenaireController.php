@@ -4,12 +4,16 @@ namespace App\Controller;
 
 use App\Entity\User;
 use App\Entity\Compte;
+use App\Form\UserType;
+use App\Form\CompteType;
 use App\Entity\Partenaire;
+use App\Form\PartenaireType;
 use App\Repository\PartenaireRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use FOS\RestBundle\Controller\FOSRestController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\Serializer\SerializerInterface;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
@@ -22,7 +26,7 @@ use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
      * @Security("has_role('ROLE_AdminWari')")
      */
  
-class PartenaireController extends AbstractController
+class PartenaireController extends FOSRestController
 {
     private $content='Content-Type';
     private $application='application/json';
@@ -43,24 +47,31 @@ class PartenaireController extends AbstractController
      */
     public function new(Request $request, SerializerInterface $serializer, EntityManagerInterface $entityManager,  UserPasswordEncoderInterface $passwordEncoder){
 
-        $values = json_decode($request->getContent());      
-        $partenaire = new Partenaire();
-            $partenaire->setRaisonSocial($values->raisonSocial);
-            $partenaire->setNinea($values->ninea);
-            $partenaire->setAdresse($values->adresse);
-            $entrp=$values->raisonSocial;
+        $prest= new Partenaire();
+        $form = $this->createForm(PartenaireType::class, $prest);
+        $data=$request->request->all();
+        $file= $request->files->all()['imageFile'];
+        $form->submit($data);
+        $entityManager = $this->getDoctrine()->getManager();
+        $entityManager->persist($prest);
 
-        $user = new User();
-            $user->setUsername($values->username);
-            $user->setRoles(["ROLE_Partenaire"]);
-            $password = $passwordEncoder->encodePassword($user,$values->password);
-            $user->setPassword($password);
-            $user->setNomComplet($values->nomComplet);
-            $user->setStatus('Actif');
-           
-            $user->setProprietaire($values->raisonSocial);
-        $cpt = new Compte();
-        $recup = substr($entrp,0,2);  
+        $utilisateur = new User();
+        $form=$this->createForm(UserType::class , $utilisateur);
+        $form->handleRequest($request);
+        $form->submit($data);
+        $utilisateur->setRoles(["ROLE_Partenaire"]);
+        $utilisateur->setStatus('Actif');
+        $utilisateur->setProprietaire($form->get('nomComplet')->getData());
+        $utilisateur->setImageFile($file);
+        $utilisateur->setPassword($passwordEncoder->encodePassword($utilisateur,
+        $form->get('password')->getData() ) 
+            );
+        $entityManager = $this->getDoctrine()->getManager();
+        $utilisateur->setPartenaire($prest);
+        $entityManager->persist($utilisateur);
+        $entityManager->flush();
+        
+        $recup = substr($utilisateur->getNomComplet(),0,2);  
         while (true) {
             if (time() % 1 == 0) {
                 $alea = rand(100,200);
@@ -70,24 +81,24 @@ class PartenaireController extends AbstractController
             }
         }
         $concat =$recup.$alea;
-        $cpt->setMontant(0);
-        $cpt->setNumeroCompte($concat);
-        $cpt->setPartenaire($partenaire);
-           // relates this user to the partenaire   
-        $user->setPartenaire($partenaire);
-        
-        if ($partenaire) {
-            $entityManager = $this->getDoctrine()->getManager();
-            $entityManager->persist($partenaire);
-            $entityManager->persist($user);
-            $entityManager->persist($cpt);
-             // relates this partenaire to the compte    
-            $entityManager->flush(); 
-    }
+
+        $compt = new Compte();
+        $form = $this->createForm(CompteType::class, $compt);
+        $data=$request->request->all();
+        $form->submit($data);
+        $compt->setNumeroCompte($concat);
+        $compt->setMontant(0);
+
+        $entityManager = $this->getDoctrine()->getManager();
+        $entityManager->persist($compt);
+        $entityManager->flush();
+
+
+
     return new Response(
-        'Saved new user with name: '.$user->getNomComplet()
-        .' and new partenaire with raisonSocial: '.$partenaire->getRaisonSocial() .'and new compte with compte number'.
-        $cpt->getNumeroCompte()
+        'Saved new user with name: '.$utilisateur->getNomComplet()
+        .' and new partenaire with raisonSocial: '.$prest->getRaisonSocial() .'and new compte with compte number'.
+        $compt->getNumeroCompte()
     );   
 }
      /**
