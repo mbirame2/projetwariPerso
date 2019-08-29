@@ -8,6 +8,7 @@ use App\Form\UserType;
 use App\Form\CompteType;
 use App\Entity\Partenaire;
 use App\Form\PartenaireType;
+use App\Repository\UserRepository;
 use App\Repository\PartenaireRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
@@ -23,7 +24,7 @@ use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
      /**
      * @Route("/api", name="liste_partenaire")
-     * @Security("has_role('ROLE_AdminWari')")
+     * 
      */
  
 class PartenaireController extends FOSRestController
@@ -31,19 +32,22 @@ class PartenaireController extends FOSRestController
     private $content='Content-Type';
     private $application='application/json';
     /**
-     * @Route("/partenaire", name="liste_partenaire", methods={"GET"})
+     * @Route("/liste_user", name="liste_partenaire", methods={"GET"})
+     * @Security("has_role('ROLE_Partenaire')")
      */
-    public function index(PartenaireRepository $partenaireRepository, SerializerInterface $serializer)
-    {
-       $part=$partenaireRepository->findAll();
+    public function index(UserRepository $partenaireRepository, SerializerInterface $serializer)
+    {  $connecte = $this->getUser();
+       $part=$partenaireRepository->findBy(['partenaire'=>$connecte->getPartenaire()]);
        $data=$serializer->serialize($part, 'json');
 
+       
        return new Response($data, 200, [
            $this->content => $this->application
        ]);
     }
     /**
      * @Route("/ajout_partenaire", name="ajout_partenaire", methods={"POST"})
+     * @Security("has_role('ROLE_AdminWari')")
      */
     public function new(Request $request, SerializerInterface $serializer, EntityManagerInterface $entityManager,  UserPasswordEncoderInterface $passwordEncoder){
 
@@ -103,6 +107,7 @@ class PartenaireController extends FOSRestController
 }
      /**
     * @Route("/api/partenaire/{id}", name="modifier_partenaire", methods={"PUT"})
+    * @Security("has_role('ROLE_AdminWari')")
     */
     public function update(Request $request, SerializerInterface $serializer, Partenaire $partenaire, ValidatorInterface $validator, EntityManagerInterface $entityManager)
     {

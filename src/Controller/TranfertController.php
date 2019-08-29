@@ -2,17 +2,18 @@
 
 namespace App\Controller;
 
+use App\Entity\Tarif;
 use App\Entity\Compte;
 use App\Entity\EnvoiArgent;
 use App\Form\EnvoiArgentType;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use FOS\RestBundle\Controller\FOSRestController;
+use Symfony\Component\Serializer\SerializerInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use App\Entity\Tarif;
-use Symfony\Component\HttpFoundation\Response;
 
 /**
 * @Route("/api",name="_api")
@@ -92,6 +93,7 @@ if(!$comp){
    return new Response('Le code saisi est incorecte .Veillez ressayer un autre  '); 
 
 }else{
+
     $is=$this->getUser();
     $com= $this->getDoctrine()->getRepository(Compte::class)->findOneBy(['partenaire' => $is->getPartenaire()]);
      
@@ -101,7 +103,22 @@ if(!$comp){
    $com->setMontant($mo);
    $entityManager->persist($comp);
    $entityManager->flush();
-   return new Response('Numero Piece Identité: '. $comp->getPieceidReceveur() .'   Nom complet: '.$comp->getNomComplet());
 }
+    }
+    /**
+     *  @Route("/retrait_test", name="tranfe" ,methods={"POST"})
+     * @Security("has_role('ROLE_User')")
+     */
+    public function tes(Request $request, EntityManagerInterface $entityManager,SerializerInterface $serializer )
+    {
+        $values = json_decode($request->getContent());  
+        $comp= $this->getDoctrine()->getRepository(EnvoiArgent::class)->findOneBy(['codeTransfert' => $values->coderetrait]);   
+        if(!$comp){
+   
+            return ('Le code saisi est incorecte .Veillez ressayer un autre  '); 
+         
+        }else{
+            return ($comp);
+        }
     }
 }

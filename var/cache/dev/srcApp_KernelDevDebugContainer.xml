@@ -496,6 +496,7 @@
       <argument type="service" id="doctrine"/>
     </service>
     <service id="App\Security\AccessDeniedHandler" class="App\Security\AccessDeniedHandler" autowire="true" autoconfigure="true"/>
+    <service id="App\Utils\CircularReferenceHandler" class="App\Utils\CircularReferenceHandler" autowire="true" autoconfigure="true"/>
     <service id="controller_name_converter" class="Symfony\Bundle\FrameworkBundle\Controller\ControllerNameParser" public="false">
       <tag name="monolog.logger" channel="request"/>
       <argument type="service" id="kernel"/>
@@ -1991,7 +1992,9 @@
       <argument type="service" id="property_info" on-invalid="ignore"/>
       <argument type="service" id="serializer.mapping.class_discriminator_resolver" on-invalid="ignore"/>
       <argument>null</argument>
-      <argument type="collection"/>
+      <argument type="collection">
+        <argument key="circular_reference_handler" type="service" id="App\Utils\CircularReferenceHandler"/>
+      </argument>
     </service>
     <service id="serializer.denormalizer.array" class="Symfony\Component\Serializer\Normalizer\ArrayDenormalizer" public="false">
       <tag name="serializer.normalizer" priority="-990"/>
@@ -5222,10 +5225,10 @@
         <argument>make:migration</argument>
       </call>
     </service>
-    <service id=".service_locator.eIEYWuf" class="Symfony\Component\DependencyInjection\ServiceLocator" public="false">
+    <service id=".service_locator.BTT1w0j" class="Symfony\Component\DependencyInjection\ServiceLocator" public="false">
       <tag name="container.service_locator"/>
       <argument type="collection">
-        <argument key="partenaireRepository" type="service" id="App\Repository\PartenaireRepository"/>
+        <argument key="partenaireRepository" type="service" id="App\Repository\UserRepository"/>
         <argument key="serializer" type="service" id="serializer"/>
       </argument>
     </service>
@@ -5279,6 +5282,13 @@
         <argument key="entityManager" type="service" id="doctrine.orm.default_entity_manager"/>
       </argument>
     </service>
+    <service id=".service_locator.k22NER8" class="Symfony\Component\DependencyInjection\ServiceLocator" public="false">
+      <tag name="container.service_locator"/>
+      <argument type="collection">
+        <argument key="entityManager" type="service" id="doctrine.orm.default_entity_manager"/>
+        <argument key="serializer" type="service" id="serializer"/>
+      </argument>
+    </service>
     <service id=".service_locator.e0UMJg." class="Symfony\Component\DependencyInjection\ServiceLocator" public="false">
       <tag name="container.service_locator"/>
       <argument type="collection">
@@ -5286,10 +5296,10 @@
         <argument key="versementRepository" type="service" id="App\Repository\VersementRepository"/>
       </argument>
     </service>
-    <service id=".service_locator.b3bPPVM" class="Symfony\Component\DependencyInjection\ServiceLocator" public="false">
+    <service id=".service_locator.LBE5HVD" class="Symfony\Component\DependencyInjection\ServiceLocator" public="false">
       <tag name="container.service_locator"/>
       <argument type="collection">
-        <argument key="App\Controller\PartenaireController::index" type="service" id=".service_locator.eIEYWuf"/>
+        <argument key="App\Controller\PartenaireController::index" type="service" id=".service_locator.BTT1w0j"/>
         <argument key="App\Controller\PartenaireController::new" type="service" id=".service_locator.9cYN13S"/>
         <argument key="App\Controller\PartenaireController::setViewHandler" type="service" id=".service_locator.l2alLEu"/>
         <argument key="App\Controller\PartenaireController::update" type="service" id=".service_locator.fDbIXxi"/>
@@ -5302,9 +5312,10 @@
         <argument key="App\Controller\TranfertController::index" type="service" id=".service_locator.ZIsCxOI"/>
         <argument key="App\Controller\TranfertController::retrait" type="service" id=".service_locator.ZIsCxOI"/>
         <argument key="App\Controller\TranfertController::setViewHandler" type="service" id=".service_locator.l2alLEu"/>
+        <argument key="App\Controller\TranfertController::tes" type="service" id=".service_locator.k22NER8"/>
         <argument key="App\Controller\VersementController::index" type="service" id=".service_locator.e0UMJg."/>
         <argument key="App\Controller\VersementController::setViewHandler" type="service" id=".service_locator.l2alLEu"/>
-        <argument key="App\Controller\PartenaireController:index" type="service" id=".service_locator.eIEYWuf"/>
+        <argument key="App\Controller\PartenaireController:index" type="service" id=".service_locator.BTT1w0j"/>
         <argument key="App\Controller\PartenaireController:new" type="service" id=".service_locator.9cYN13S"/>
         <argument key="App\Controller\PartenaireController:setViewHandler" type="service" id=".service_locator.l2alLEu"/>
         <argument key="App\Controller\PartenaireController:update" type="service" id=".service_locator.fDbIXxi"/>
@@ -5317,6 +5328,7 @@
         <argument key="App\Controller\TranfertController:index" type="service" id=".service_locator.ZIsCxOI"/>
         <argument key="App\Controller\TranfertController:retrait" type="service" id=".service_locator.ZIsCxOI"/>
         <argument key="App\Controller\TranfertController:setViewHandler" type="service" id=".service_locator.l2alLEu"/>
+        <argument key="App\Controller\TranfertController:tes" type="service" id=".service_locator.k22NER8"/>
         <argument key="App\Controller\VersementController:index" type="service" id=".service_locator.e0UMJg."/>
         <argument key="App\Controller\VersementController:setViewHandler" type="service" id=".service_locator.l2alLEu"/>
       </argument>
@@ -5593,12 +5605,12 @@
       <argument type="service" id="security.token_storage"/>
     </service>
     <service id="debug.argument_resolver.service.inner" class="Symfony\Component\HttpKernel\Controller\ArgumentResolver\ServiceValueResolver" public="false">
-      <argument type="service" id=".service_locator.b3bPPVM"/>
+      <argument type="service" id=".service_locator.LBE5HVD"/>
     </service>
     <service id="debug.argument_resolver.default.inner" class="Symfony\Component\HttpKernel\Controller\ArgumentResolver\DefaultValueResolver" public="false"/>
     <service id="debug.argument_resolver.variadic.inner" class="Symfony\Component\HttpKernel\Controller\ArgumentResolver\VariadicValueResolver" public="false"/>
     <service id="debug.argument_resolver.not_tagged_controller.inner" class="Symfony\Component\HttpKernel\Controller\ArgumentResolver\NotTaggedControllerValueResolver" public="false">
-      <argument type="service" id=".service_locator.b3bPPVM"/>
+      <argument type="service" id=".service_locator.LBE5HVD"/>
     </service>
     <service id="api_platform.swagger.normalizer.api_gateway.inner" class="ApiPlatform\Core\Swagger\Serializer\DocumentationNormalizer" public="false">
       <argument type="service" id="api_platform.metadata.resource.metadata_factory.cached"/>
@@ -5978,7 +5990,7 @@
     <service id="Vich\UploaderBundle\Form\Type\VichImageType" alias="vich_uploader.form.type.image" public="false"/>
     <service id="Vich\UploaderBundle\Templating\Helper\UploaderHelper" alias="vich_uploader.templating.helper.uploader_helper" public="false"/>
     <service id="Vich\UploaderBundle\Twig\Extension\UploaderExtension" alias="vich_uploader.twig.extension.uploader" public="false"/>
-    <service id="argument_resolver.controller_locator" alias=".service_locator.b3bPPVM"/>
+    <service id="argument_resolver.controller_locator" alias=".service_locator.LBE5HVD"/>
     <service id="twig.loader.filesystem" alias="twig.loader.native_filesystem" public="false"/>
     <service id="twig.loader" alias="twig.loader.native_filesystem"/>
     <service id="api_platform.name_converter" alias="serializer.name_converter.metadata_aware"/>

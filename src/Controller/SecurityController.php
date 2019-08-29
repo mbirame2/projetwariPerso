@@ -10,12 +10,16 @@ use App\Form\UserType;
 use App\Entity\Partenaire;
 use App\Repository\UserRepository;
 use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Component\Serializer\Serializer;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use FOS\RestBundle\Controller\FOSRestController;
 use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\Serializer\Encoder\JsonEncoder;
+use Symfony\Component\Serializer\SerializerInterface;
 use FOS\RestBundle\Controller\AbstractFOSRestController;
+use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 use Lexik\Bundle\JWTAuthenticationBundle\Encoder\JWTEncoderInterface;
@@ -194,7 +198,7 @@ class SecurityController extends FOSRestController
             'exp' => time() + 3600 // 1 hour expiration
         ]);
 
-    return new JsonResponse(['token' => $token]);
+    return new Response ($token);
 
     }
   
@@ -229,9 +233,31 @@ class SecurityController extends FOSRestController
     public function stat()
     {
 
-      
+        $pdfOptions = new Options();
+        $pdfOptions->set('defaultFont', 'Arial');
         
+        // Instantiate Dompdf with our options
+        $dompdf = new Dompdf($pdfOptions);
         
-       // return $this->render('ooreka-contrat-de-prestation-de-service-converti.pdf');
+        // Retrieve the HTML generated in our twig file
+        $html = $this->renderView('default/mypdf.html.twig', [
+            'title' => "Welcome to our PDF Test"
+        ]);
+        
+        // Load HTML to Dompdf
+        $dompdf->loadHtml('');
+        
+        // (Optional) Setup the paper size and orientation 'portrait' or 'portrait'
+        $dompdf->setPaper('A4', 'portrait');
+
+        // Render the HTML as PDF
+        $dompdf->render();
+
+        // Output the generated PDF to Browser (force download)
+        $dompdf->stream("mypdf.pdf", [
+            "Attachment" => true
+        ]);
+        
     }
+    
 }

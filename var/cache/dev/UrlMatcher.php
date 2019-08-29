@@ -8,7 +8,7 @@
 return [
     false, // $matchHost
     [ // $staticRoutes
-        '/api/partenaire' => [[['_route' => 'liste_partenaireliste_partenaire', '_controller' => 'App\\Controller\\PartenaireController::index'], null, ['GET' => 0], null, false, false, null]],
+        '/api/liste_user' => [[['_route' => 'liste_partenaireliste_partenaire', '_controller' => 'App\\Controller\\PartenaireController::index'], null, ['GET' => 0], null, false, false, null]],
         '/api/ajout_partenaire' => [[['_route' => 'liste_partenaireajout_partenaire', '_controller' => 'App\\Controller\\PartenaireController::new'], null, ['POST' => 0], null, false, false, null]],
         '/api/register/caissier' => [[['_route' => '_apiap', '_controller' => 'App\\Controller\\SecurityController::ajoutCaissier'], null, ['POST' => 0], null, false, false, null]],
         '/api/register/superadminpartenaire' => [[['_route' => '_apiapp_reg', '_controller' => 'App\\Controller\\SecurityController::superadminwari'], null, ['POST' => 0], null, false, false, null]],
@@ -18,6 +18,7 @@ return [
         '/api/contrat' => [[['_route' => '_apicontrat', '_controller' => 'App\\Controller\\SecurityController::stat'], null, ['GET' => 0], null, false, false, null]],
         '/api/envoieargent' => [[['_route' => '_apitranfert', '_controller' => 'App\\Controller\\TranfertController::index'], null, ['POST' => 0], null, false, false, null]],
         '/api/retraitargent' => [[['_route' => '_apitranfertok', '_controller' => 'App\\Controller\\TranfertController::retrait'], null, ['POST' => 0], null, false, false, null]],
+        '/api/retrait_test' => [[['_route' => '_apitranfe', '_controller' => 'App\\Controller\\TranfertController::tes'], null, ['POST' => 0], null, false, false, null]],
         '/api/versement' => [[['_route' => 'list_des_versements', '_controller' => 'App\\Controller\\VersementController::index'], null, ['GET' => 0], null, false, false, null]],
         '/api/ajout_versement' => [[['_route' => 'ajout_versement', '_controller' => 'App\\Controller\\VersementController::ajout'], null, ['POST' => 0], null, false, false, null]],
     ],

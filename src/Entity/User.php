@@ -31,7 +31,7 @@ class User implements UserInterface
      * NOTE: This is not a mapped field of entity metadata, just a simple property.
      * 
      * @Vich\UploadableField(mapping="user_image", fileNameProperty="imageName")
-     * 
+     * @ORM\JoinColumn(nullable=true)
      * @var File
      */
     private $imageFile;

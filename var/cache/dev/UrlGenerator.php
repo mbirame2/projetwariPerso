@@ -4,7 +4,7 @@
 
 return [
     '_twig_error_test' => [['code', '_format'], ['_controller' => 'twig.controller.preview_error::previewErrorPageAction', '_format' => 'html'], ['code' => '\\d+'], [['variable', '.', '[^/]++', '_format', true], ['variable', '/', '\\d+', 'code', true], ['text', '/_error']], [], []],
-    'liste_partenaireliste_partenaire' => [[], ['_controller' => 'App\\Controller\\PartenaireController::index'], [], [['text', '/api/partenaire']], [], []],
+    'liste_partenaireliste_partenaire' => [[], ['_controller' => 'App\\Controller\\PartenaireController::index'], [], [['text', '/api/liste_user']], [], []],
     'liste_partenaireajout_partenaire' => [[], ['_controller' => 'App\\Controller\\PartenaireController::new'], [], [['text', '/api/ajout_partenaire']], [], []],
     'liste_partenairemodifier_partenaire' => [['id'], ['_controller' => 'App\\Controller\\PartenaireController::update'], [], [['variable', '/', '[^/]++', 'id', true], ['text', '/api/api/partenaire']], [], []],
     '_apiap' => [[], ['_controller' => 'App\\Controller\\SecurityController::ajoutCaissier'], [], [['text', '/api/register/caissier']], [], []],
@@ -16,6 +16,7 @@ return [
     '_apicontrat' => [[], ['_controller' => 'App\\Controller\\SecurityController::stat'], [], [['text', '/api/contrat']], [], []],
     '_apitranfert' => [[], ['_controller' => 'App\\Controller\\TranfertController::index'], [], [['text', '/api/envoieargent']], [], []],
     '_apitranfertok' => [[], ['_controller' => 'App\\Controller\\TranfertController::retrait'], [], [['text', '/api/retraitargent']], [], []],
+    '_apitranfe' => [[], ['_controller' => 'App\\Controller\\TranfertController::tes'], [], [['text', '/api/retrait_test']], [], []],
     'list_des_versements' => [[], ['_controller' => 'App\\Controller\\VersementController::index'], [], [['text', '/api/versement']], [], []],
     'ajout_versement' => [[], ['_controller' => 'App\\Controller\\VersementController::ajout'], [], [['text', '/api/ajout_versement']], [], []],
     'api_entrypoint' => [['index', '_format'], ['_controller' => 'api_platform.action.entrypoint', '_format' => '', '_api_respond' => 'true', 'index' => 'index'], ['index' => 'index'], [['variable', '.', '[^/]++', '_format', true], ['variable', '/', 'index', 'index', true], ['text', '/api']], [], []],
