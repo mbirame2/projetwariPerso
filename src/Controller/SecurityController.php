@@ -121,6 +121,7 @@ class SecurityController extends FOSRestController
         $form->handleRequest($request);
         $data=$request->request->all();
        $file= $request->files->all()[$this->image];
+       var_dump($file);die();
            $entityManager = $this->getDoctrine()->getManager();
         $form->submit($data);
         $utilisateur->setPassword($passwordEncoder->encodePassword($utilisateur,
@@ -180,7 +181,6 @@ class SecurityController extends FOSRestController
         $values = json_decode($request->getContent()); 
        $username=$values->username;
        $password=$values->password;
-
         $partenaire= $this->getDoctrine()->getRepository(User::class)->findOneBy(['username'=>$username]);
         if (!$partenaire) {
             throw $this->createNotFoundException('User Not Found');
@@ -192,11 +192,12 @@ class SecurityController extends FOSRestController
             }
            if($partenaire->getStatus()==$this->inactif){
             return new Response('Accés refusé vous étes bloqués');
-           }
+           }elseif($partenaire->getStatus()==$this->actif){
            $token = $JWTEncoder->encode([
             'username' => $password,
             'exp' => time() + 3600 // 1 hour expiration
         ]);
+    }
 
     return new Response ($token);
 
@@ -210,7 +211,7 @@ class SecurityController extends FOSRestController
     }
     /**
     * @Route("/user/bloquer_user/{id}", name="status",methods={"PUT"})
-    *@Security("has_role('ROLE_Partenaire') ")
+    *
     */
     public function status(User $user)
     {
