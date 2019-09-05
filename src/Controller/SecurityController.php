@@ -101,7 +101,7 @@ class SecurityController extends FOSRestController
          
                   
 
-    return new Response(
+    return new JSONResponse(
         'Saved new user with AdminWari: '.$utilisateur->getNomComplet()
        
     );     
@@ -121,7 +121,6 @@ class SecurityController extends FOSRestController
         $form->handleRequest($request);
         $data=$request->request->all();
        $file= $request->files->all()[$this->image];
-       var_dump($file);die();
            $entityManager = $this->getDoctrine()->getManager();
         $form->submit($data);
         $utilisateur->setPassword($passwordEncoder->encodePassword($utilisateur,
@@ -194,12 +193,13 @@ class SecurityController extends FOSRestController
             return new Response('Accés refusé vous étes bloqués');
            }elseif($partenaire->getStatus()==$this->actif){
            $token = $JWTEncoder->encode([
-            'username' => $password,
+            'username' => $username,
+            'roles'=> $partenaire->getRoles(),
             'exp' => time() + 3600 // 1 hour expiration
         ]);
     }
 
-    return new Response ($token);
+    return new  JsonResponse(['token' => $token]);
 
     }
   

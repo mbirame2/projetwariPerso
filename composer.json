@@ -10,7 +10,6 @@
         "dompdf/dompdf": "^0.8.3",
         "friendsofsymfony/rest-bundle": "^2.5",
         "lexik/jwt-authentication-bundle": "^2.6",
-        "nelmio/cors-bundle": "^1.5",
         "ocramius/package-versions": "^1.4",
         "sensio/framework-extra-bundle": "^5.4",
         "symfony/console": "4.3.*",

@@ -1541,6 +1541,14 @@
         <argument>2048</argument>
       </call>
       <call method="addListener">
+        <argument>console.command</argument>
+        <argument type="collection">
+          <argument type="service" id="debug.debug_handlers_listener"/>
+          <argument>configure</argument>
+        </argument>
+        <argument>2048</argument>
+      </call>
+      <call method="addListener">
         <argument>kernel.exception</argument>
         <argument type="collection">
           <argument type="service" id="debug.debug_handlers_listener"/>
@@ -2410,6 +2418,7 @@
         <argument type="service" id="security.authentication.provider.dao.login"/>
         <argument type="service" id="security.authentication.provider.anonymous.login"/>
         <argument type="service" id="security.authentication.provider.guard.api"/>
+        <argument type="service" id="security.authentication.provider.dao.api"/>
       </argument>
       <argument>true</argument>
       <call method="setEventDispatcher">
@@ -3038,6 +3047,7 @@
       <argument>null</argument>
       <argument type="collection">
         <argument>guard</argument>
+        <argument>http_basic</argument>
       </argument>
       <argument>null</argument>
     </service>
@@ -3062,6 +3072,23 @@
       </argument>
       <argument type="service" id="logger" on-invalid="null"/>
     </service>
+    <service id="security.authentication.provider.dao.api" class="Symfony\Component\Security\Core\Authentication\Provider\DaoAuthenticationProvider" public="false">
+      <argument type="service" id="security.user.provider.concrete.app_user_provider"/>
+      <argument type="service" id="security.user_checker"/>
+      <argument>api</argument>
+      <argument type="service" id="security.encoder_factory.generic"/>
+      <argument>true</argument>
+    </service>
+    <service id="security.authentication.listener.basic.api" class="Symfony\Component\Security\Http\Firewall\BasicAuthenticationListener" public="false">
+      <argument type="service" id="security.token_storage"/>
+      <argument type="service" id="security.authentication.manager"/>
+      <argument>api</argument>
+      <argument type="service" id="lexik_jwt_authentication.security.guard.jwt_token_authenticator"/>
+      <argument type="service" id="logger" on-invalid="null"/>
+      <call method="setSessionAuthenticationStrategy">
+        <argument type="service" id="security.authentication.session_strategy_noop"/>
+      </call>
+    </service>
     <service id="security.exception_listener.api" class="Symfony\Component\Security\Http\Firewall\ExceptionListener" public="false">
       <argument type="service" id="security.token_storage"/>
       <argument type="service" id="security.authentication.trust_resolver"/>
@@ -3077,6 +3104,7 @@
       <argument type="iterator">
         <argument type="service" id="security.channel_listener"/>
         <argument type="service" id="security.authentication.listener.guard.api"/>
+        <argument type="service" id="security.authentication.listener.basic.api"/>
         <argument type="service" id="security.access_listener"/>
       </argument>
       <argument type="service" id="security.exception_listener.api"/>
@@ -4530,7 +4558,7 @@
       <tag name="console.command" command="server:run"/>
       <argument>/home/birame/projetwariPerso/projetwariPerso/public</argument>
       <argument>dev</argument>
-      <argument>/home/birame/projetwariPerso/projetwariPerso/var/cache</argument>
+      <argument>/home/birame/projetwariPerso/projetwariPerso</argument>
       <call method="setName">
         <argument>server:run</argument>
       </call>
@@ -4539,21 +4567,21 @@
       <tag name="console.command" command="server:start"/>
       <argument>/home/birame/projetwariPerso/projetwariPerso/public</argument>
       <argument>dev</argument>
-      <argument>/home/birame/projetwariPerso/projetwariPerso/var/cache</argument>
+      <argument>/home/birame/projetwariPerso/projetwariPerso</argument>
       <call method="setName">
         <argument>server:start</argument>
       </call>
     </service>
     <service id="web_server.command.server_stop" class="Symfony\Bundle\WebServerBundle\Command\ServerStopCommand" public="false">
       <tag name="console.command" command="server:stop"/>
-      <argument>/home/birame/projetwariPerso/projetwariPerso/var/cache</argument>
+      <argument>/home/birame/projetwariPerso/projetwariPerso</argument>
       <call method="setName">
         <argument>server:stop</argument>
       </call>
     </service>
     <service id="web_server.command.server_status" class="Symfony\Bundle\WebServerBundle\Command\ServerStatusCommand" public="false">
       <tag name="console.command" command="server:status"/>
-      <argument>/home/birame/projetwariPerso/projetwariPerso/var/cache</argument>
+      <argument>/home/birame/projetwariPerso/projetwariPerso</argument>
       <call method="setName">
         <argument>server:status</argument>
       </call>
