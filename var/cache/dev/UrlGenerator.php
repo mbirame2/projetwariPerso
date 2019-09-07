@@ -13,7 +13,7 @@ return [
     '_apiapp_re' => [[], ['_controller' => 'App\\Controller\\SecurityController::userpartenaire'], [], [['text', '/api/register/userpartenaire']], [], []],
     '_apitoken' => [[], ['_controller' => 'App\\Controller\\SecurityController::index'], [], [['text', '/api/login']], [], []],
     '_apiapp_logout' => [[], ['_controller' => 'App\\Controller\\SecurityController::logout'], [], [['text', '/api/logout']], [], []],
-    '_apistatus' => [['id'], ['_controller' => 'App\\Controller\\SecurityController::status'], [], [['variable', '/', '[^/]++', 'id', true], ['text', '/api/user/bloquer_user']], [], []],
+    '_apistatus' => [['id'], ['_controller' => 'App\\Controller\\SecurityController::stas'], [], [['variable', '/', '[^/]++', 'id', true], ['text', '/api/partenaire/bloquer_partenaire']], [], []],
     '_apicontrat' => [[], ['_controller' => 'App\\Controller\\SecurityController::stat'], [], [['text', '/api/contrat']], [], []],
     '_apitranfert' => [[], ['_controller' => 'App\\Controller\\TranfertController::index'], [], [['text', '/api/envoieargent']], [], []],
     '_apitranfertok' => [[], ['_controller' => 'App\\Controller\\TranfertController::retrait'], [], [['text', '/api/retraitargent']], [], []],

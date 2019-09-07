@@ -189,7 +189,7 @@ class SecurityController extends FOSRestController
             if (!$isValid) {
                 return new Response('Le mot de passe saisi est incorrecte');
             }
-           if($partenaire->getStatus()==$this->inactif){
+           if($partenaire->getStatus()==$this->inactif ){
             return new Response('Accés refusé vous étes bloqués');
            }elseif($partenaire->getStatus()==$this->actif){
            $token = $JWTEncoder->encode([
@@ -229,20 +229,27 @@ class SecurityController extends FOSRestController
     }
 
     /**
-    * @Route("/user/bloquer_partenaire/{id}", name="status",methods={"PUT"})
-    *
+    * @Route("/partenaire/bloquer_partenaire/{id}", name="status",methods={"PUT"})
+    *@Security("has_role('ROLE_AdminWari') ")
     */
     public function stas(Partenaire $user)
     {
+        $comp= $this->getDoctrine()->getRepository(User::class)->findBy(['partenaire' => $user->getId()]);
         if($user->getStatus()==$this->inactif){
             $user->setStatus($this->actif);
-           $user->getUser()->setStatus($this->actif);
+         
+         foreach($comp as $values){
+           $vo= $values->setStatus($this->actif);
+         }
         }else{
             $user->setStatus($this->inactif);
-            $user->getUser()->setStatus($this->inactif);
+            foreach($comp as $values){
+              $vo=  $values->setStatus($this->inactif);
+             }
         }
         $entityManager = $this->getDoctrine()->getManager();
         $entityManager->persist($user);
+        $entityManager->persist($vo);
         $entityManager->flush();
         return $this->handleView($this->view([$this->status=>'ok'],Response::HTTP_CREATED));
     }
