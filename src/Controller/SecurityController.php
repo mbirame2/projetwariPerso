@@ -227,6 +227,25 @@ class SecurityController extends FOSRestController
         $entityManager->flush();
         return $this->handleView($this->view([$this->status=>'ok'],Response::HTTP_CREATED));
     }
+
+    /**
+    * @Route("/user/bloquer_partenaire/{id}", name="status",methods={"PUT"})
+    *
+    */
+    public function stas(Partenaire $user)
+    {
+        if($user->getStatus()==$this->inactif){
+            $user->setStatus($this->actif);
+           $user->getUser()->setStatus($this->actif);
+        }else{
+            $user->setStatus($this->inactif);
+            $user->getUser()->setStatus($this->inactif);
+        }
+        $entityManager = $this->getDoctrine()->getManager();
+        $entityManager->persist($user);
+        $entityManager->flush();
+        return $this->handleView($this->view([$this->status=>'ok'],Response::HTTP_CREATED));
+    }
      /**
     * @Route("/contrat", name="contrat",methods={"GET"})
     *@Security("has_role('ROLE_AdminWari') ")

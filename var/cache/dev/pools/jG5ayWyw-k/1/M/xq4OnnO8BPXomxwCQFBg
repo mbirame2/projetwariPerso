@@ -12,7 +12,7 @@
                     '/liste_user',
                 ],
                 'name' => [
-                    'liste_partenaire',
+                    'liste_user',
                 ],
                 'methods' => [
                     [

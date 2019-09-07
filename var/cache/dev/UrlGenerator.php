@@ -4,7 +4,8 @@
 
 return [
     '_twig_error_test' => [['code', '_format'], ['_controller' => 'twig.controller.preview_error::previewErrorPageAction', '_format' => 'html'], ['code' => '\\d+'], [['variable', '.', '[^/]++', '_format', true], ['variable', '/', '\\d+', 'code', true], ['text', '/_error']], [], []],
-    'liste_partenaireliste_partenaire' => [[], ['_controller' => 'App\\Controller\\PartenaireController::index'], [], [['text', '/api/liste_user']], [], []],
+    'liste_partenaireliste_user' => [[], ['_controller' => 'App\\Controller\\PartenaireController::index'], [], [['text', '/api/liste_user']], [], []],
+    'liste_partenaireliste_partenaire' => [[], ['_controller' => 'App\\Controller\\PartenaireController::inx'], [], [['text', '/api/liste_partenaire']], [], []],
     'liste_partenaireajout_partenaire' => [[], ['_controller' => 'App\\Controller\\PartenaireController::new'], [], [['text', '/api/ajout_partenaire']], [], []],
     'liste_partenairemodifier_partenaire' => [['id'], ['_controller' => 'App\\Controller\\PartenaireController::update'], [], [['variable', '/', '[^/]++', 'id', true], ['text', '/api/api/partenaire']], [], []],
     '_apiap' => [[], ['_controller' => 'App\\Controller\\SecurityController::ajoutCaissier'], [], [['text', '/api/register/caissier']], [], []],

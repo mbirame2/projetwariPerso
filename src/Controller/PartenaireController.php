@@ -33,7 +33,7 @@ class PartenaireController extends FOSRestController
     private $content='Content-Type';
     private $application='application/json';
     /**
-     * @Route("/liste_user", name="liste_partenaire", methods={"GET"})
+     * @Route("/liste_user", name="liste_user", methods={"GET"})
      * @Security("has_role('ROLE_Partenaire')")
      */
     public function index(UserRepository $partenaireRepository, SerializerInterface $serializer)
@@ -47,7 +47,20 @@ class PartenaireController extends FOSRestController
        ]);
     }
     /**
+     * @Route("/liste_partenaire", name="liste_partenaire", methods={"GET"})
+     * @Security("has_role('ROLE_AdminWari')")
+     */
+    public function inx(PartenaireRepository $partenaireRepository, SerializerInterface $serializer)
+    { 
+       $part=$partenaireRepository->findAll();
+       $data=$serializer->serialize($part, 'json');
+          return new Response($data, 200, [
+           $this->content => $this->application
+       ]);
+    }
+    /**
      * @Route("/ajout_partenaire", name="ajout_partenaire", methods={"POST"})
+     * @Security("has_role('ROLE_AdminWari')")
      */
     public function new(Request $request, SerializerInterface $serializer, EntityManagerInterface $entityManager,  UserPasswordEncoderInterface $passwordEncoder){
 
@@ -55,6 +68,7 @@ class PartenaireController extends FOSRestController
         $form = $this->createForm(PartenaireType::class, $prest);
         $data=$request->request->all();
         $file= $request->files->all()['imageFile'];
+        $prest->setStatus('Actif');
         $form->submit($data);
         $entityManager = $this->getDoctrine()->getManager();
         $entityManager->persist($prest);

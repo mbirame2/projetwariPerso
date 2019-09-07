@@ -8,7 +8,8 @@
 return [
     false, // $matchHost
     [ // $staticRoutes
-        '/api/liste_user' => [[['_route' => 'liste_partenaireliste_partenaire', '_controller' => 'App\\Controller\\PartenaireController::index'], null, ['GET' => 0], null, false, false, null]],
+        '/api/liste_user' => [[['_route' => 'liste_partenaireliste_user', '_controller' => 'App\\Controller\\PartenaireController::index'], null, ['GET' => 0], null, false, false, null]],
+        '/api/liste_partenaire' => [[['_route' => 'liste_partenaireliste_partenaire', '_controller' => 'App\\Controller\\PartenaireController::inx'], null, ['GET' => 0], null, false, false, null]],
         '/api/ajout_partenaire' => [[['_route' => 'liste_partenaireajout_partenaire', '_controller' => 'App\\Controller\\PartenaireController::new'], null, ['POST' => 0], null, false, false, null]],
         '/api/register/caissier' => [[['_route' => '_apiap', '_controller' => 'App\\Controller\\SecurityController::ajoutCaissier'], null, ['POST' => 0], null, false, false, null]],
         '/api/register/superadminpartenaire' => [[['_route' => '_apiapp_reg', '_controller' => 'App\\Controller\\SecurityController::superadminwari'], null, ['POST' => 0], null, false, false, null]],
